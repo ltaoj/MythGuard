@@ -9,4 +9,6 @@
     <string name="al_family">家庭登录</string>
     <string name="al_visitor">访客登录</string>
     <string name="al_forget">忘记密码？</string>
+
+    <string name="ar_regist">注册</string>
 </resources>
