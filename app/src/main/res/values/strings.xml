@@ -1,8 +1,8 @@
 <resources>
     <string name="app_name">MythGuard</string>
-    <string name="title_home">Home</string>
-    <string name="title_dashboard">Dashboard</string>
-    <string name="title_notifications">Notifications</string>
+    <string name="title_member">成员</string>
+    <string name="title_add">添加</string>
+    <string name="title_opendoor">开门</string>
     
     <string name="al_hint_account">请输入用户名</string>
     <string name="al_hint_pwd">请输入密码</string>
@@ -11,4 +11,7 @@
     <string name="al_forget">忘记密码？</string>
 
     <string name="ar_regist">注册</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
 </resources>
