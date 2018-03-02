@@ -19,12 +19,13 @@ public abstract class MVPBaseActivity<V, T extends BasePresenter<V>> extends RxA
 
     // Presenter对象
     protected T mPresenter;
-    protected Toolbar toolbar;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mPresenter = createPresenter();
-        mPresenter.attachView((V) this);
+        if (mPresenter != null)
+            mPresenter.attachView((V) this);
     }
 
     // 初始化控件
@@ -33,14 +34,15 @@ public abstract class MVPBaseActivity<V, T extends BasePresenter<V>> extends RxA
     protected abstract void initData();
     // 统一初始化工具栏
     protected void initToolbar() {
-        toolbar = this.findViewById(R.id.common_toolbar);
+        Toolbar toolbar = this.findViewById(R.id.common_toolbar);
         setSupportActionBar(toolbar);
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        mPresenter.detachView();
+        if (mPresenter != null)
+            mPresenter.detachView();
     }
 
     /**

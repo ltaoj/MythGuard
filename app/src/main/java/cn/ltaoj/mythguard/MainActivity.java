@@ -19,8 +19,12 @@ import cn.ltaoj.mythguard.base.MVPBaseActivity;
 import cn.ltaoj.mythguard.mvp.presenter.BasePresenter;
 import cn.ltaoj.mythguard.mvp.presenter.MemberPresenter;
 import cn.ltaoj.mythguard.mvp.view.IMemberView;
+import cn.ltaoj.mythguard.ui.fragment.AddFragment;
+import cn.ltaoj.mythguard.ui.fragment.MemberFragment;
+import cn.ltaoj.mythguard.ui.fragment.OpendoorFragment;
+import cn.ltaoj.mythguard.ui.fragment.VisitorFragment;
 
-public class MainActivity extends MVPBaseActivity implements IMemberView{
+public class MainActivity extends MVPBaseActivity {
 
     private String[] tabs = new String[]{"家庭成员", "访客信息", "添加", "开门"};
     private List<Fragment> fragments = new ArrayList<Fragment>();
@@ -88,10 +92,10 @@ public class MainActivity extends MVPBaseActivity implements IMemberView{
 
     private void initTab() {
         tabLayout = findViewById(R.id.tab_layout);
-        Fragment mMemberFragment = null;
-        Fragment mVisitorFragment = null;
-        Fragment mAddFragment = null;
-        Fragment mOpendoorFragment = null;
+        Fragment mMemberFragment = new MemberFragment();
+        Fragment mVisitorFragment = new VisitorFragment();
+        Fragment mAddFragment = new AddFragment();
+        Fragment mOpendoorFragment = new OpendoorFragment();
         fragments.add(mMemberFragment);
         fragments.add(mVisitorFragment);
         fragments.add(mAddFragment);
@@ -105,7 +109,7 @@ public class MainActivity extends MVPBaseActivity implements IMemberView{
 
     @Override
     protected BasePresenter createPresenter() {
-        return new MemberPresenter(this);
+        return null;
     }
 
     @Override
@@ -120,20 +124,5 @@ public class MainActivity extends MVPBaseActivity implements IMemberView{
                 }
                 break;
         }
-    }
-
-    @Override
-    public void showMembers(List<Member> members) {
-
-    }
-
-    @Override
-    public void showLoading() {
-
-    }
-
-    @Override
-    public void hideLoading() {
-
     }
 }
