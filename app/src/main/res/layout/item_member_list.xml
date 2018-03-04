@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    
+    <cn.ltaoj.circleimageview.CircleImageView
+        android:id="@+id/member_avatar"
+        android:layout_width="@dimen/circle_image_size"
+        android:layout_height="@dimen/circle_image_size"
+        android:src="@mipmap/iv_default_avatar"
+        android:scaleType="fitCenter"
+        app:civ_corner_radius="10dip"
+        app:civ_border_width="1dip"
+        app:civ_border_color="@color/colorImageBorder"
+        app:civ_oval="false"
+        android:layout_margin="@dimen/activity_horizontal_margin"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+    <TextView
+        android:id="@+id/text_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/text_default"
+        android:textSize="@dimen/text_size_16"
+        android:textColor="@color/colorBlack"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginTop="@dimen/space_margin"
+        app:layout_constraintLeft_toRightOf="@id/member_avatar"
+        app:layout_constraintTop_toTopOf="@id/member_avatar"/>
+
+    <TextView
+        android:id="@+id/text_last_in"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/iml_last_in"
+        android:textSize="@dimen/text_size_12"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginTop="@dimen/space_margin"
+        app:layout_constraintLeft_toRightOf="@id/member_avatar"
+        app:layout_constraintTop_toBottomOf="@id/text_name"/>
+
+    <TextView
+        android:id="@+id/text_in_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/text_default_datetime"
+        android:textSize="@dimen/text_size_12"
+        android:layout_marginLeft="@dimen/tab_margin"
+        android:layout_marginTop="@dimen/space_margin"
+        app:layout_constraintLeft_toRightOf="@id/text_last_in"
+        app:layout_constraintTop_toBottomOf="@id/text_name"/>
+
+    <TextView
+        android:id="@+id/text_last_out"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/iml_last_out"
+        android:textSize="@dimen/text_size_12"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginBottom="@dimen/space_margin"
+        app:layout_constraintLeft_toRightOf="@id/member_avatar"
+        app:layout_constraintBottom_toBottomOf="@id/member_avatar"/>
+
+    <TextView
+        android:id="@+id/text_out_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/text_default_datetime"
+        android:textSize="@dimen/text_size_12"
+        android:layout_marginLeft="@dimen/tab_margin"
+        android:layout_marginBottom="@dimen/space_margin"
+        app:layout_constraintLeft_toRightOf="@id/text_last_out"
+        app:layout_constraintBottom_toBottomOf="@id/member_avatar"/>
+</android.support.constraint.ConstraintLayout>

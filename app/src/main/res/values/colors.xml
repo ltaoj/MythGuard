@@ -6,4 +6,16 @@
 
     <color name="colorWhite">#FFFFFF</color>
     <color name="colorTabNormal">#A6A6A6</color>
+
+    <color name="colorImageBorder">#333333</color>
+
+    <!--text color-->
+    <color name="colorBlack">#000000</color>
+    <color name="colorSemi">#353535</color>
+    <color name="colorGrey">#888888</color>
+    <color name="colorLight">#B2B2B2</color>
+
+    <color name="colorBlue">#576B95</color>
+    <color name="colorGreen">#09BB07</color>
+    <color name="colorRed">#E64340</color>
 </resources>
