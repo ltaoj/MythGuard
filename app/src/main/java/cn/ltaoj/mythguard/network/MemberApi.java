@@ -1,8 +1,8 @@
 package cn.ltaoj.mythguard.network;
 
-import java.lang.reflect.Member;
 import java.util.List;
 
+import cn.ltaoj.mythguard.bean.MemberItem;
 import cn.ltaoj.mythguard.listener.DataListener;
 
 /**
@@ -15,5 +15,5 @@ public interface MemberApi {
      * 网络请求获取成员列表
      * @param listener
      */
-    public void fetchMembers(DataListener<List<Member>> listener);
+    public void fetchMembers(DataListener<List<MemberItem>> listener);
 }

@@ -1,8 +1,8 @@
 package cn.ltaoj.mythguard.mvp.model;
 
-import java.lang.reflect.Member;
 import java.util.List;
 
+import cn.ltaoj.mythguard.bean.MemberItem;
 import cn.ltaoj.mythguard.listener.DataListener;
 
 /**
@@ -14,11 +14,11 @@ public interface MemberModel {
      * 存储
      * @param members
      */
-    public void saveMembers(List<Member> members);
+    public void saveMembers(List<MemberItem> members);
 
     /**
      * 从缓存读取
      * @param listener
      */
-    public void loadMembersFromCache(DataListener<List<Member>> listener);
+    public void loadMembersFromCache(DataListener<List<MemberItem>> listener);
 }

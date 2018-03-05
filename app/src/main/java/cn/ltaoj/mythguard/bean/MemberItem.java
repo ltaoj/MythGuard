@@ -19,6 +19,9 @@ public class MemberItem implements Parcelable{
     private int status;
     private String binderId;
 
+    public MemberItem() {
+    }
+
     protected MemberItem(Parcel in) {
         userId = in.readString();
         uname = in.readString();

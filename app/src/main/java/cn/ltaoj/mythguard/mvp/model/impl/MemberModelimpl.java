@@ -1,8 +1,8 @@
 package cn.ltaoj.mythguard.mvp.model.impl;
 
-import java.lang.reflect.Member;
 import java.util.List;
 
+import cn.ltaoj.mythguard.bean.MemberItem;
 import cn.ltaoj.mythguard.listener.DataListener;
 import cn.ltaoj.mythguard.mvp.model.MemberModel;
 
@@ -12,12 +12,12 @@ import cn.ltaoj.mythguard.mvp.model.MemberModel;
 
 public class MemberModelimpl implements MemberModel {
     @Override
-    public void saveMembers(List<Member> members) {
+    public void saveMembers(List<MemberItem> members) {
 
     }
 
     @Override
-    public void loadMembersFromCache(DataListener<List<Member>> listener) {
+    public void loadMembersFromCache(DataListener<List<MemberItem>> listener) {
         listener.onComplete(null);
     }
 }

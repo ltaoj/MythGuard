@@ -1,10 +1,11 @@
 package cn.ltaoj.mythguard.network.impl;
 
-import java.lang.reflect.Member;
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.ltaoj.mythguard.bean.MemberItem;
 import cn.ltaoj.mythguard.listener.DataListener;
+import cn.ltaoj.mythguard.mvp.model.MemberModel;
 import cn.ltaoj.mythguard.network.MemberApi;
 
 /**
@@ -13,8 +14,8 @@ import cn.ltaoj.mythguard.network.MemberApi;
 
 public class MemberApiimpl implements MemberApi {
     @Override
-    public void fetchMembers(DataListener<List<Member>> listener) {
-        List<Member> memberList = new ArrayList<>();
+    public void fetchMembers(DataListener<List<MemberItem>> listener) {
+        List<MemberItem> memberList = new ArrayList<>();
         /**
          * 请求网络填充memberList列表
          */

@@ -1,8 +1,8 @@
 package cn.ltaoj.mythguard.mvp.presenter;
 
-import java.lang.reflect.Member;
 import java.util.List;
 
+import cn.ltaoj.mythguard.bean.MemberItem;
 import cn.ltaoj.mythguard.listener.DataListener;
 import cn.ltaoj.mythguard.mvp.model.MemberModel;
 import cn.ltaoj.mythguard.mvp.model.impl.MemberModelimpl;
@@ -30,9 +30,9 @@ public class MemberPresenter extends BasePresenter {
     // 获取成员，也就是业务逻辑函数
     public void fetchMembers() {
         mMemberView.showLoading();
-        mMemberApi.fetchMembers(new DataListener<List<Member>>() {
+        mMemberApi.fetchMembers(new DataListener<List<MemberItem>>() {
             @Override
-            public void onComplete(List<Member> result) {
+            public void onComplete(List<MemberItem> result) {
                 mMemberView.showMembers(result);
                 mMemberView.hideLoading();
                 mMemberModel.saveMembers(result);
@@ -42,9 +42,9 @@ public class MemberPresenter extends BasePresenter {
 
     // 获取成员，从数据库获取
     public void loadMembersFromDB() {
-        mMemberModel.loadMembersFromCache(new DataListener<List<Member>>() {
+        mMemberModel.loadMembersFromCache(new DataListener<List<MemberItem>>() {
             @Override
-            public void onComplete(List<Member> result) {
+            public void onComplete(List<MemberItem> result) {
                 mMemberView.showMembers(result);
             }
         });
