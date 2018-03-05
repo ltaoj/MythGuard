@@ -43,6 +43,10 @@ public abstract class MVPBaseFragment<V, T extends BasePresenter<V>> extends RxF
             mPresenter.detachView();
     }
 
+    protected View getRootView() {
+        return mRootView;
+    }
+
     /**
      * Fragment布局id
      * @return
