@@ -23,4 +23,5 @@
     <string name="iml_last_in">上次进门时间:</string>
     <string name="iml_last_out">上次出门时间:</string>
     <string name="text_default_datetime">无记录</string>
+    <string name="iml_back_delete">删除</string>
 </resources>

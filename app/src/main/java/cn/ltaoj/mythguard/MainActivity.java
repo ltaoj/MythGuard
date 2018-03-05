@@ -11,14 +11,12 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.view.View;
 
-import java.lang.reflect.Member;
 import java.util.ArrayList;
 import java.util.List;
 
 import cn.ltaoj.mythguard.base.MVPBaseActivity;
 import cn.ltaoj.mythguard.mvp.presenter.BasePresenter;
-import cn.ltaoj.mythguard.mvp.presenter.MemberPresenter;
-import cn.ltaoj.mythguard.mvp.view.IMemberView;
+
 import cn.ltaoj.mythguard.ui.fragment.AddFragment;
 import cn.ltaoj.mythguard.ui.fragment.MemberFragment;
 import cn.ltaoj.mythguard.ui.fragment.OpendoorFragment;

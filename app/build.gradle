@@ -41,10 +41,11 @@ dependencies {
     implementation 'com.android.volley:volley:1.1.0'
     // 自己开发上传的ImageView库
     compile 'cn.ltaoj.circleimageview:circleimageview:1.0.0'
+    compile 'cn.ltaoj.widget:widget:0.9.5'
 }
 repositories {
     mavenCentral()
     maven {
-        url 'https://dl.bintray.com/ltaoj/CircleImageView'
+        url 'https://dl.bintray.com/ltaoj/uilib'
     }
 }
