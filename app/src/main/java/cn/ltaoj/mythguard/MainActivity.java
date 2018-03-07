@@ -29,14 +29,19 @@ public class MainActivity extends MVPBaseActivity {
     private TabLayout tabLayout;
     private ViewPager viewPager;
     private NavigationView navigationView;
+    private final int layoutId = R.layout.activity_main;
+    private final int toobarId  = R.id.main_toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        initToolbar();
         initView();
         initData();
+    }
+
+    @Override
+    protected int getToobarId() {
+        return toobarId;
     }
 
     @Override
@@ -103,6 +108,11 @@ public class MainActivity extends MVPBaseActivity {
     @Override
     protected void initData() {
 
+    }
+
+    @Override
+    protected int getLayoutId() {
+        return layoutId;
     }
 
     @Override
