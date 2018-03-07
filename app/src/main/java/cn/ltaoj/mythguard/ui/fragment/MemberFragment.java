@@ -1,5 +1,6 @@
 package cn.ltaoj.mythguard.ui.fragment;
 
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -39,6 +40,8 @@ public class MemberFragment extends MVPBaseFragment implements IMemberView {
         manager.setOrientation(LinearLayoutManager.VERTICAL);
         RecyclerView recyclerView = getRootView().findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(manager);
+        // 设置默认分割线
+        recyclerView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
         mAdapter = new MemberItemAdapter(getContext(), memberList);
         recyclerView.setAdapter(mAdapter);
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {

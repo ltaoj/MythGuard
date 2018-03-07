@@ -9,10 +9,15 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import cn.ltaoj.mythguard.base.MVPBaseActivity;
 import cn.ltaoj.mythguard.mvp.presenter.BasePresenter;
@@ -21,9 +26,11 @@ import cn.ltaoj.mythguard.ui.fragment.AddFragment;
 import cn.ltaoj.mythguard.ui.fragment.MemberFragment;
 import cn.ltaoj.mythguard.ui.fragment.OpendoorFragment;
 import cn.ltaoj.mythguard.ui.fragment.VisitorFragment;
+import cn.ltaoj.mythguard.util.ToastUtil;
 
 public class MainActivity extends MVPBaseActivity {
-
+    private static final String TAG = "MainActivity";
+    
     private String[] tabs = new String[]{"家庭成员", "访客信息", "添加", "开门"};
     private List<Fragment> fragments = new ArrayList<Fragment>();
     private TabLayout tabLayout;
@@ -31,6 +38,9 @@ public class MainActivity extends MVPBaseActivity {
     private NavigationView navigationView;
     private final int layoutId = R.layout.activity_main;
     private final int toobarId  = R.id.main_toolbar;
+
+    // 表示是否可以退出程序
+    private boolean isExit = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -131,6 +141,39 @@ public class MainActivity extends MVPBaseActivity {
                     drawer.openDrawer(GravityCompat.START);
                 }
                 break;
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Log.i(TAG, "onBackPressed: ");
+    }
+
+    @Override
+    public boolean onKeyUp(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            exitByDoubleClick();
+        }
+        return false;
+    }
+
+    private void exitByDoubleClick() {
+        Timer timer = null;
+        if (!isExit) {
+            isExit = true;
+            ToastUtil.showToast(this, TAG + ": 请再按一次退出程序");
+            timer = new Timer();
+            timer.schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    // 2秒内没有再次按回退键，取消退出
+                    isExit = false;
+                }
+            }, 2000);
+        } else {
+            finish();
+            System.exit(0);
         }
     }
 }
