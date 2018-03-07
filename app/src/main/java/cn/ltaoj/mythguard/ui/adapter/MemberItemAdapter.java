@@ -3,7 +3,9 @@ package cn.ltaoj.mythguard.ui.adapter;
 import android.content.Context;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -20,6 +22,7 @@ import cn.ltaoj.widget.SwipeLayout;
  */
 
 public class MemberItemAdapter extends RecyclerView.Adapter<MemberItemAdapter.ViewHolder> {
+    private static final String TAG = "MemberItemAdapter";
 
     public interface OnMemberItemClickListener {
 
@@ -73,7 +76,7 @@ public class MemberItemAdapter extends RecyclerView.Adapter<MemberItemAdapter.Vi
         holder.swipeLayout.setOnSwipeChangeLintener(new SwipeLayout.OnSwipeChangeLintener() {
             @Override
             public void onStartOpen(SwipeLayout swipeLayout) {
-                if (preLayout != swipeLayout) {
+                if (preLayout != null && preLayout != swipeLayout) {
                     preLayout.close();
                 }
 
@@ -87,7 +90,7 @@ public class MemberItemAdapter extends RecyclerView.Adapter<MemberItemAdapter.Vi
                 preLayout = swipeLayout;
 
                 if (onMemberItemClickListener != null) {
-                    onMemberItemClickListener.onStartOpen(swipeLayout);
+                    onMemberItemClickListener.onOpen(swipeLayout);
                 }
             }
 
@@ -96,12 +99,20 @@ public class MemberItemAdapter extends RecyclerView.Adapter<MemberItemAdapter.Vi
                 if (onMemberItemClickListener != null) {
                     onMemberItemClickListener.onStartClose(swipeLayout);
                 }
+
+                if (preLayout != null) {
+                    preLayout = null;
+                }
             }
 
             @Override
             public void onClose(SwipeLayout swipeLayout) {
                 if (onMemberItemClickListener != null) {
                     onMemberItemClickListener.onClose(swipeLayout);
+                }
+
+                if (preLayout != null && preLayout == swipeLayout) {
+                    preLayout = null;
                 }
             }
 
@@ -113,10 +124,19 @@ public class MemberItemAdapter extends RecyclerView.Adapter<MemberItemAdapter.Vi
             }
         });
 
+        holder.frontLayout.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                return false;
+            }
+        });
+
         holder.frontLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (holder.swipeLayout.getSwipState() == SwipeLayout.SwipeState.OPEN) {
+                if (preLayout != null) {
+                    preLayout.close();
+                } else if (holder.swipeLayout.getSwipState() == SwipeLayout.SwipeState.OPEN) {
                     holder.swipeLayout.close();
                 } else if (onMemberItemClickListener != null){
                     onMemberItemClickListener.onFrontLayout(position);
