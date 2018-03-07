@@ -26,17 +26,26 @@ public abstract class MVPBaseActivity<V, T extends BasePresenter<V>> extends RxA
         mPresenter = createPresenter();
         if (mPresenter != null)
             mPresenter.attachView((V) this);
+        setContentView(getLayoutId());
+        initToolbar();
     }
 
     // 初始化控件
     protected abstract void initView();
     // 初始化数据
     protected abstract void initData();
-    // 统一初始化工具栏
+    // 统一初始化工具栏, 如果Activity使用了其他布局，那么需要重载此方法
     protected void initToolbar() {
-        Toolbar toolbar = this.findViewById(R.id.common_toolbar);
+        Toolbar toolbar = this.findViewById(getToobarId());
         setSupportActionBar(toolbar);
     }
+    // 如果工具栏使用其他id，那么重载此方法
+    protected int getToobarId() {
+        return R.id.common_toolbar;
+    }
+
+    // Activity资源布局接口
+    protected abstract int getLayoutId();
 
     @Override
     protected void onDestroy() {
@@ -52,6 +61,10 @@ public abstract class MVPBaseActivity<V, T extends BasePresenter<V>> extends RxA
      * @param bundle 携带的数据
      */
     protected void jumpToActivity(Class clazz, boolean closeCurrent, Bundle bundle) {
+        if (bundle == null) {
+            bundle = new Bundle();
+        }
+
         Intent intent = new Intent(this, clazz);
         intent.putExtras(bundle);
         startActivity(intent);
