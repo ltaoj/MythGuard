@@ -12,7 +12,6 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -58,6 +57,18 @@ public class MainActivity extends MVPBaseActivity {
     protected void initView() {
         findViewById(R.id.ll_menu).setOnClickListener(this);
         initTab();
+        initViewPager();
+        tabLayout.setupWithViewPager(viewPager);
+
+        DrawerLayout drawerLayout = findViewById(R.id.drawer_layout);
+        /*此处如果绑定了Toobar，那么会在Toolbar左边默认添加一个按钮*/
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, null,
+                R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawerLayout.addDrawerListener(toggle);
+        toggle.syncState();
+    }
+
+    private void initViewPager() {
         viewPager = findViewById(R.id.view_pager);
         viewPager.setOffscreenPageLimit(tabs.length);
         viewPager.setAdapter(new FragmentPagerAdapter(getSupportFragmentManager()) {
@@ -93,14 +104,6 @@ public class MainActivity extends MVPBaseActivity {
             }
         });
         viewPager.setCurrentItem(0);
-        tabLayout.setupWithViewPager(viewPager);
-
-        DrawerLayout drawerLayout = findViewById(R.id.drawer_layout);
-        /*此处如果绑定了Toobar，那么会在Toolbar左边默认添加一个按钮*/
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, null,
-                R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawerLayout.addDrawerListener(toggle);
-        toggle.syncState();
     }
 
     private void initTab() {
@@ -162,7 +165,7 @@ public class MainActivity extends MVPBaseActivity {
         Timer timer = null;
         if (!isExit) {
             isExit = true;
-            ToastUtil.showToast(this, TAG + ": 请再按一次退出程序");
+            ToastUtil.showToast(this, "请再按一次退出程序");
             timer = new Timer();
             timer.schedule(new TimerTask() {
                 @Override
