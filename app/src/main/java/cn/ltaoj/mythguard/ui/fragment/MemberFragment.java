@@ -16,6 +16,7 @@ import cn.ltaoj.mythguard.bean.MemberItem;
 import cn.ltaoj.mythguard.mvp.presenter.BasePresenter;
 import cn.ltaoj.mythguard.mvp.presenter.MemberPresenter;
 import cn.ltaoj.mythguard.mvp.view.IMemberView;
+import cn.ltaoj.mythguard.ui.activity.MemDetailActivity;
 import cn.ltaoj.mythguard.ui.adapter.MemberItemAdapter;
 import cn.ltaoj.widget.SwipeLayout;
 
@@ -88,7 +89,7 @@ public class MemberFragment extends MVPBaseFragment implements IMemberView {
 
             @Override
             public void onFrontLayout(int position) {
-                Toast.makeText(getContext(), "查看详细信息", Toast.LENGTH_SHORT);
+                jumpToActivity(MemDetailActivity.class, null);
             }
 
             @Override

@@ -1,5 +1,6 @@
 package cn.ltaoj.mythguard.base;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -47,6 +48,20 @@ public abstract class MVPBaseFragment<V, T extends BasePresenter<V>> extends RxF
         return mRootView;
     }
 
+    /**
+     * activity跳转
+     * @param clazz
+     * @param bundle 携带的数据
+     */
+    protected void jumpToActivity(Class clazz, Bundle bundle) {
+        if (bundle == null) {
+            bundle = new Bundle();
+        }
+
+        Intent intent = new Intent(this.getContext(), clazz);
+        intent.putExtras(bundle);
+        startActivity(intent);
+    }
     /**
      * Fragment布局id
      * @return
