@@ -14,11 +14,11 @@ public interface MemberModel {
      * 存储
      * @param members
      */
-    public void saveMembers(List<MemberItem> members);
+    void saveMembers(List<MemberItem> members);
 
     /**
      * 从缓存读取
      * @param listener
      */
-    public void loadMembersFromCache(DataListener<List<MemberItem>> listener);
+    void loadMembersFromCache(DataListener<List<MemberItem>> listener);
 }

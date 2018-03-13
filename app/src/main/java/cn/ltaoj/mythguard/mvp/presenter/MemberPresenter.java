@@ -14,7 +14,7 @@ import cn.ltaoj.mythguard.network.impl.MemberApiimpl;
  * Created by lenovo on 2018/3/1.
  */
 
-public class MemberPresenter extends BasePresenter {
+public class MemberPresenter extends BasePresenter<IMemberView> {
 
     // IMemberView接口，代表了View接口角色
     IMemberView mMemberView;

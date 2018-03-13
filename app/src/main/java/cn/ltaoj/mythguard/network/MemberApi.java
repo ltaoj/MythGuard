@@ -15,5 +15,5 @@ public interface MemberApi {
      * 网络请求获取成员列表
      * @param listener
      */
-    public void fetchMembers(DataListener<List<MemberItem>> listener);
+    void fetchMembers(DataListener<List<MemberItem>> listener);
 }

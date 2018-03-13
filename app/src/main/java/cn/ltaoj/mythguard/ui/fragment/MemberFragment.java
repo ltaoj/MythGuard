@@ -24,7 +24,7 @@ import cn.ltaoj.widget.SwipeLayout;
  * Created by lenovo on 2018/3/2.
  */
 
-public class MemberFragment extends MVPBaseFragment implements IMemberView {
+public class MemberFragment extends MVPBaseFragment<IMemberView, MemberPresenter> implements IMemberView {
 
     private int layoutId = R.layout.fragment_member;
     private MemberItemAdapter mAdapter;
@@ -108,7 +108,7 @@ public class MemberFragment extends MVPBaseFragment implements IMemberView {
     }
 
     @Override
-    protected BasePresenter createPresenter() {
+    protected MemberPresenter createPresenter() {
         return new MemberPresenter(this);
     }
 
