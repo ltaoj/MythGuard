@@ -28,6 +28,8 @@ public abstract class MVPBaseActivity<V, T extends BasePresenter<V>> extends RxA
             mPresenter.attachView((V) this);
         setContentView(getLayoutId());
         initToolbar();
+        initView();
+        initData();
     }
 
     // 初始化控件

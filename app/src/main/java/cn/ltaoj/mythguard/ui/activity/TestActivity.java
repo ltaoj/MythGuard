@@ -33,8 +33,6 @@ public class TestActivity extends MVPBaseActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        initView();
-        initData();
     }
 
     @Override

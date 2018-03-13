@@ -44,8 +44,6 @@ public class MainActivity extends MVPBaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        initView();
-        initData();
     }
 
     @Override
