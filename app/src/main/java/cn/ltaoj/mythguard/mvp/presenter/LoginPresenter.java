@@ -66,6 +66,7 @@ public class LoginPresenter extends BasePresenter<ILoginView> {
                 mLoginView.hideLoading();
                 if (result == null){ // 结果为空，表示登录验证失败
                     mLoginView.showResult("登录失败,请重试");
+                    mLoginView.clearInput();
                 } else {
                     mSignonModel.saveSignonInfo(result);
                     mLoginView.showResult("登陆成功");

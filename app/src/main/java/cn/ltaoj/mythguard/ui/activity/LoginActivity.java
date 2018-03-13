@@ -1,5 +1,6 @@
 package cn.ltaoj.mythguard.ui.activity;
 
+import android.os.Build;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -10,6 +11,8 @@ import cn.ltaoj.mythguard.base.MVPBaseActivity;
 import cn.ltaoj.mythguard.mvp.presenter.LoginPresenter;
 import cn.ltaoj.mythguard.mvp.view.ILoginView;
 import cn.ltaoj.mythguard.util.ToastUtil;
+
+import static android.os.Build.VERSION_CODES.LOLLIPOP;
 
 /**
  * Created by ltaoj on 2018/3/13 14:32.
@@ -77,12 +80,32 @@ public class LoginActivity extends MVPBaseActivity<ILoginView, LoginPresenter> i
 
     @Override
     public void showTip(InputType inputType) {
-
+        String tipText = null;
+        if (inputType == InputType.ACCOUNT) {
+            tipText = "账号为空，请输入账号再登录";
+            accountInput.requestFocus();
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                accountInput.setError(tipText);
+            } else {
+                ToastUtil.showToast(this, tipText);
+            }
+        } else {
+            tipText = "密码为空，请输入密码再登录";
+            pwdInput.requestFocus();
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                pwdInput.setError(tipText);
+            } else {
+                ToastUtil.showToast(this, tipText);
+            }
+        }
     }
 
     @Override
     public void hideTip() {
-
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            accountInput.setError(null);
+            pwdInput.setError(null);
+        }
     }
 
     @Override
