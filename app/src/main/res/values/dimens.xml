@@ -25,4 +25,8 @@
     <dimen name="member_item_height">64dp</dimen>
 
     <dimen name="text_delete_padding">32dp</dimen>
+
+    <!--item_detail_list.xml-->
+    <dimen name="idl_item_height">56dp</dimen>
+    <dimen name="idl_icon_size">36dp</dimen>
 </resources>
