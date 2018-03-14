@@ -1,18 +1,16 @@
 package cn.ltaoj.mythguard.ui.activity;
 
 import android.os.Build;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 
 import cn.ltaoj.mythguard.MainActivity;
 import cn.ltaoj.mythguard.R;
 import cn.ltaoj.mythguard.base.MVPBaseActivity;
+import cn.ltaoj.mythguard.cache.file.XmlFileCache;
 import cn.ltaoj.mythguard.mvp.presenter.LoginPresenter;
 import cn.ltaoj.mythguard.mvp.view.ILoginView;
 import cn.ltaoj.mythguard.util.ToastUtil;
-
-import static android.os.Build.VERSION_CODES.LOLLIPOP;
 
 /**
  * Created by ltaoj on 2018/3/13 14:32.
@@ -40,6 +38,9 @@ public class LoginActivity extends MVPBaseActivity<ILoginView, LoginPresenter> i
     protected void initData() {
         // 尝试自动登录
         mPresenter.autoLogin();
+
+        // 初始化XmlFileCache单例类
+        XmlFileCache.init(this);
     }
 
     @Override
@@ -54,11 +55,9 @@ public class LoginActivity extends MVPBaseActivity<ILoginView, LoginPresenter> i
 
     @Override
     public void onClick(View v) {
-        Log.i(TAG, "onClick: login");
-        switch (v.getId()) {
+        switch (v.getId()) { // 暂时认为两种登录方式可以不做区分
             case R.id.bt_family:
             case R.id.bt_visitor:
-                Log.i(TAG, "onClick: login");
                 mPresenter.login();
                 break;
             case R.id.tv_forget:
