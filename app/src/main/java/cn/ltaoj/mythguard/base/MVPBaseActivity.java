@@ -26,12 +26,15 @@ public abstract class MVPBaseActivity<V, T extends BasePresenter<V>> extends RxA
         mPresenter = createPresenter();
         if (mPresenter != null)
             mPresenter.attachView((V) this);
+        setSystemUI();
         setContentView(getLayoutId());
         initToolbar();
         initView();
         initData();
     }
 
+    // 提供一个空实现，如果对系统状态栏等有要求，重载此方法
+    protected void setSystemUI() {}
     // 初始化控件
     protected abstract void initView();
     // 初始化数据

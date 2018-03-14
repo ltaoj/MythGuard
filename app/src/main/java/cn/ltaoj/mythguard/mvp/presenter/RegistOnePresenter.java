@@ -26,4 +26,13 @@ public class RegistOnePresenter extends BasePresenter<IRegistViewOne> {
     public void setmRegistView(IRegistView mRegistView) {
         this.mRegistView = mRegistView;
     }
+
+    public void checkData() {
+        /**
+         * 页面数据验证，存储后，如果成功，进入下一个页面，失败，则给出相应提示
+         */
+        if (mRegistView != null) {
+            mRegistView.nextFragment();
+        }
+    }
 }

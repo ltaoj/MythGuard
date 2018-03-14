@@ -135,6 +135,6 @@ public class LoginActivity extends MVPBaseActivity<ILoginView, LoginPresenter> i
 
     @Override
     public void jumpToRegist() {
-
+        jumpToActivity(RegistActivity.class, false, null);
     }
 }

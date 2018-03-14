@@ -2,6 +2,7 @@ package cn.ltaoj.mythguard.ui.fragment;
 
 import android.view.View;
 
+import cn.ltaoj.mythguard.R;
 import cn.ltaoj.mythguard.base.MVPBaseFragment;
 import cn.ltaoj.mythguard.mvp.presenter.RegistThrPresenter;
 import cn.ltaoj.mythguard.mvp.view.IRegistView;
@@ -12,17 +13,20 @@ import cn.ltaoj.mythguard.mvp.view.IRegistViewThr;
  */
 
 public class RegistThrFragment extends MVPBaseFragment<IRegistViewThr, RegistThrPresenter> implements IRegistViewThr {
+    private static final String TAG = "RegistThrFragment";
+
+    private final int layoutId = R.layout.fragment_regist_thr;
 
     private IRegistView registView;
 
     @Override
     protected int getLayoutId() {
-        return 0;
+        return layoutId;
     }
 
     @Override
     protected void initView() {
-
+        getRootView().findViewById(R.id.go_next).setOnClickListener(this);
     }
 
     @Override
@@ -37,7 +41,11 @@ public class RegistThrFragment extends MVPBaseFragment<IRegistViewThr, RegistThr
 
     @Override
     public void onClick(View v) {
-
+        switch (v.getId()) {
+            case R.id.go_next:
+                mPresenter.checkData();
+                break;
+        }
     }
 
     /**
