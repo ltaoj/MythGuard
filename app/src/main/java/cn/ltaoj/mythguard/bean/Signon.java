@@ -47,7 +47,27 @@ public class Signon implements Parcelable{
         dest.writeByte((byte) (auth ? 1 : 0));
     }
 
+    public String getAccount() {
+        return account;
+    }
+
+    public void setAccount(String account) {
+        this.account = account;
+    }
+
+    public String getPwd() {
+        return pwd;
+    }
+
+    public void setPwd(String pwd) {
+        this.pwd = pwd;
+    }
+
     public boolean isAuth() {
         return auth;
+    }
+
+    public void setAuth(boolean auth) {
+        this.auth = auth;
     }
 }
