@@ -24,7 +24,8 @@ public class SignonModelimpl implements SignonModel {
     @Override
     public void loadSiFromLocalDB(DataListener<Signon> listener) {
         XmlFileCache cache = XmlFileCache.getInstance().startRead(fileName, XmlFileCache.MODE_PRIVATE);
-        Signon signon = new Signon(cache.getString("account", ""), cache.getBoolean("auth", false));
+        String account = cache.getString("account", "");
+        Signon signon = account.equals("") ? null : new Signon(account, cache.getBoolean("auth", false));
         listener.onComplete(signon);
     }
 

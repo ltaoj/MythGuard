@@ -36,11 +36,11 @@ public class LoginActivity extends MVPBaseActivity<ILoginView, LoginPresenter> i
 
     @Override
     protected void initData() {
+        // 初始化XmlFileCache单例类, 该方法需要在使用presenter之前初始化，否则会发生异常
+        XmlFileCache.init(this);
+
         // 尝试自动登录
         mPresenter.autoLogin();
-
-        // 初始化XmlFileCache单例类
-        XmlFileCache.init(this);
     }
 
     @Override
