@@ -24,4 +24,7 @@
     <string name="iml_last_out">上次出门时间:</string>
     <string name="text_default_datetime">无记录</string>
     <string name="iml_back_delete">删除</string>
+
+    <!--layout activity_regist.xml constant string-->
+    <string name="text_back">返回</string>
 </resources>

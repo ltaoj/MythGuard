@@ -29,4 +29,7 @@
     <!--item_detail_list.xml-->
     <dimen name="idl_item_height">56dp</dimen>
     <dimen name="idl_icon_size">36dp</dimen>
+
+    <!--activity_regist.xml-->
+    <dimen name="ar_back_height">56dp</dimen>
 </resources>

@@ -55,6 +55,7 @@ public class RegistActivity extends MVPBaseActivity<IRegistView, RegistPresenter
     @Override
     protected void initView() {
         mProgressBar = findViewById(R.id.progress_bar);
+        findViewById(R.id.go_back).setOnClickListener(this);
         initFragments();
         getSupportFragmentManager().beginTransaction() // 将第一个Fragment添加到栈中
                 .add(R.id.regist_steps_layout, fragments.get(step), String.valueOf(step))
@@ -91,7 +92,11 @@ public class RegistActivity extends MVPBaseActivity<IRegistView, RegistPresenter
 
     @Override
     public void onClick(View v) {
-
+        switch (v.getId()) {
+            case R.id.go_back:
+                prevFragment();
+                break;
+        }
     }
 
     @Override
