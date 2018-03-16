@@ -12,16 +12,6 @@
         android:progress="0"
         android:max="100"/>
 
-    <TextView
-        android:id="@+id/go_back"
-        android:layout_width="wrap_content"
-        android:layout_height="@dimen/ar_back_height"
-        android:drawableLeft="@mipmap/ic_back_grey_24dp"
-        android:gravity="center_vertical"
-        android:text="@string/text_back"
-        android:textSize="@dimen/text_size_18"
-        android:textColor="@color/colorGrey" />
-
     <FrameLayout
         android:id="@+id/regist_steps_layout"
         android:layout_width="match_parent"

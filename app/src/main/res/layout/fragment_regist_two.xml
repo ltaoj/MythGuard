@@ -5,6 +5,16 @@
     android:orientation="vertical">
 
     <TextView
+        android:id="@+id/go_back"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/ar_back_height"
+        android:drawableLeft="@mipmap/ic_back_grey_24dp"
+        android:gravity="center_vertical"
+        android:text="@string/text_back"
+        android:textSize="@dimen/text_size_18"
+        android:textColor="@color/colorGrey" />
+
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="这是第二个fragment"/>

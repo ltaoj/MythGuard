@@ -42,6 +42,9 @@ public class RegistOneFragment extends MVPBaseFragment<IRegistViewOne, RegistOne
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.go_back:
+                mPresenter.goBack();
+                break;
             case R.id.go_next:
                 mPresenter.checkData();
                 break;
