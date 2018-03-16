@@ -27,6 +27,7 @@ public class RegistThrFragment extends MVPBaseFragment<IRegistViewThr, RegistThr
     @Override
     protected void initView() {
         getRootView().findViewById(R.id.go_next).setOnClickListener(this);
+        getRootView().findViewById(R.id.go_back).setOnClickListener(this);
     }
 
     @Override

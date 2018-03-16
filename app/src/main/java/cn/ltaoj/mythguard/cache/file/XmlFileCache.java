@@ -145,4 +145,8 @@ public class XmlFileCache {
         mEditor.commit();
         return mInstance;
     }
+
+    public SharedPreferences.Editor getEditor() {
+        return mEditor;
+    }
 }

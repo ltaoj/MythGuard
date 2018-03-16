@@ -25,6 +25,16 @@
     <string name="text_default_datetime">无记录</string>
     <string name="iml_back_delete">删除</string>
 
-    <!--layout activity_regist.xml constant string-->
+    <!--layout activity_regist*.xml constant string-->
     <string name="text_back">返回</string>
+    <string name="title_basic_info">输入基本信息</string>
+    <string name="regist_policy1">注册即代表阅读并同意</string>
+    <string name="regist_policy2">使用条款</string>
+    <string name="regist_policy3">和</string>
+    <string name="regist_policy4">隐私政策</string>
+    <string name="ar_name">姓名</string>
+    <string name="ar_ID">身份证号</string>
+    <string name="ar_phone">手机号</string>
+    <string name="ar_next_step">下一步</string>
+
 </resources>

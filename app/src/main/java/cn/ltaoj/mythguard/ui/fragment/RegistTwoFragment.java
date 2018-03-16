@@ -27,6 +27,7 @@ public class RegistTwoFragment extends MVPBaseFragment<IRegistViewTwo, RegistTwo
     @Override
     protected void initView() {
         getRootView().findViewById(R.id.go_next).setOnClickListener(this);
+        getRootView().findViewById(R.id.go_back).setOnClickListener(this);
     }
 
     @Override

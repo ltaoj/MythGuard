@@ -1,5 +1,8 @@
 package cn.ltaoj.mythguard.mvp.model.impl;
 
+import cn.ltaoj.mythguard.bean.RegistData;
+import cn.ltaoj.mythguard.cache.file.XmlFileCache;
+import cn.ltaoj.mythguard.listener.DataListener;
 import cn.ltaoj.mythguard.mvp.model.RegistModel;
 
 /**
@@ -7,4 +10,73 @@ import cn.ltaoj.mythguard.mvp.model.RegistModel;
  */
 
 public class RegistModelimpl implements RegistModel {
+
+    private final String fileName = "regist";
+
+    @Override
+    public void saveRegistType(String type) {
+        XmlFileCache.getInstance().startWrite(fileName, XmlFileCache.MODE_PRIVATE)
+                .putString("type", type)
+                .commit();
+    }
+
+    @Override
+    public void clearRegistType() {
+        XmlFileCache.getInstance().startRead(fileName, XmlFileCache.MODE_PRIVATE).getEditor()
+                .remove("type")
+                .commit();
+    }
+
+    @Override
+    public void saveStepOne(String name, String ID, String phone) {
+        XmlFileCache.getInstance().startWrite(fileName, XmlFileCache.MODE_PRIVATE)
+                .putString("uname", name)
+                .putString("IDNumber", ID)
+                .putString("phone", phone)
+                .commit();
+    }
+
+    @Override
+    public void clearStepOne() {
+        XmlFileCache.getInstance().startWrite(fileName, XmlFileCache.MODE_PRIVATE).getEditor()
+                .remove("uname")
+                .remove("IDNumber")
+                .remove("phone")
+                .commit();
+    }
+
+    @Override
+    public void saveStepTwo(String facePath) {
+        XmlFileCache.getInstance().startWrite(fileName, XmlFileCache.MODE_PRIVATE)
+                .putString("facePath", facePath)
+                .commit();
+    }
+
+    @Override
+    public void clearStepTwo() {
+        XmlFileCache.getInstance().startWrite(fileName, XmlFileCache.MODE_PRIVATE).getEditor()
+                .remove("facePath")
+                .commit();
+    }
+
+    @Override
+    public void loadRegistData(DataListener<RegistData> listener) {
+        XmlFileCache cache = XmlFileCache.getInstance().startRead(fileName, XmlFileCache.MODE_PRIVATE);
+        String uname = cache.getString("uname", "");
+        String IDNumber = cache.getString("IDNumber", "");
+        String phone = cache.getString("phone", "");
+        String facePath = cache.getString("facePath", "");
+        String type = cache.getString("type", "");
+        String houseNumber = cache.getString("houseNumber", "");
+        String binderId = cache.getString("binderId", "");
+        RegistData registData = uname.equals("") ? null : new RegistData(uname, IDNumber, phone, facePath, type, houseNumber, binderId);
+        listener.onComplete(registData);
+    }
+
+    @Override
+    public void clear() {
+        XmlFileCache.getInstance().startWrite(fileName, XmlFileCache.MODE_PRIVATE)
+                .clear()
+                .commit();
+    }
 }
