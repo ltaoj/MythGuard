@@ -20,6 +20,12 @@
         android:text="这是第二个fragment"/>
 
     <Button
+        android:id="@+id/face_auth"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="人脸认证"/>
+
+    <Button
         android:id="@+id/go_next"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

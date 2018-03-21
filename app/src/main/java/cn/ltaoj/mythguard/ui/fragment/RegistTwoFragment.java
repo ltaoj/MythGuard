@@ -7,6 +7,7 @@ import cn.ltaoj.mythguard.base.MVPBaseFragment;
 import cn.ltaoj.mythguard.mvp.presenter.RegistTwoPresenter;
 import cn.ltaoj.mythguard.mvp.view.IRegistView;
 import cn.ltaoj.mythguard.mvp.view.IRegistViewTwo;
+import cn.ltaoj.mythguard.ui.activity.ScanActivity;
 
 /**
  * Created by ltaoj on 2018/3/14 22:14.
@@ -28,6 +29,8 @@ public class RegistTwoFragment extends MVPBaseFragment<IRegistViewTwo, RegistTwo
     protected void initView() {
         getRootView().findViewById(R.id.go_next).setOnClickListener(this);
         getRootView().findViewById(R.id.go_back).setOnClickListener(this);
+
+        getRootView().findViewById(R.id.face_auth).setOnClickListener(this);
     }
 
     @Override
@@ -48,6 +51,9 @@ public class RegistTwoFragment extends MVPBaseFragment<IRegistViewTwo, RegistTwo
                 break;
             case R.id.go_next:
                 mPresenter.checkData();
+                break;
+            case R.id.face_auth:
+                jumpToActivity(ScanActivity.class, null);
                 break;
         }
     }
