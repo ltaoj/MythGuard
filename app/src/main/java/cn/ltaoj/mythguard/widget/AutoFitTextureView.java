@@ -17,6 +17,7 @@
 package cn.ltaoj.mythguard.widget;
 
 import android.content.Context;
+import android.graphics.Matrix;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.util.AttributeSet;
@@ -68,9 +69,17 @@ public class AutoFitTextureView extends TextureView {
             setMeasuredDimension(width, height);
         } else {
             if (width < height * mRatioWidth / mRatioHeight) {
-                setMeasuredDimension(width, width * mRatioHeight / mRatioWidth);
-            } else {
+//                setMeasuredDimension(width, width * mRatioHeight / mRatioWidth);
                 setMeasuredDimension(height * mRatioWidth / mRatioHeight, height);
+                Matrix matrix = new Matrix();
+                matrix.setTranslate((height * mRatioWidth / mRatioHeight - width) / 2, 0);
+                this.setTransform(matrix);
+            } else {
+//                setMeasuredDimension(height * mRatioWidth / mRatioHeight, height);
+                setMeasuredDimension(width, width * mRatioHeight / mRatioWidth);
+                Matrix matrix = new Matrix();
+                matrix.setTranslate(0, (width * mRatioHeight / mRatioWidth - height) / 2);
+                this.setTransform(matrix);
             }
         }
     }

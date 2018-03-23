@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.graphics.ImageFormat;
+import android.graphics.Matrix;
 import android.graphics.Point;
 import android.graphics.RectF;
 import android.graphics.SurfaceTexture;
@@ -50,6 +51,8 @@ import cn.ltaoj.mythguard.widget.AutoFitTextureView;
 
 public class Camera2Helper {
     private static final String TAG = "CameraManager2";
+
+    private static final boolean DEBUG = true;
 
     // 前置摄像头
     private static final String FACING_FRONT = "1";
@@ -330,14 +333,47 @@ public class Camera2Helper {
         }
     }
 
+    /**
+     * Configures the necessary {@link android.graphics.Matrix} transformation to `mTextureView`.
+     * This method should be called after the camera preview size is determined in
+     * setUpCameraOutputs and also the size of `mTextureView` is fixed.
+     *
+     * @param viewWidth  The width of `mTextureView`
+     * @param viewHeight The height of `mTextureView`
+     */
     public void configureTransform(int viewWidth, int viewHeight) {
-
+        if (null == mTextureView || null == mPreviewSize || null == mActivity) {
+            return;
+        }
+        int rotation = mActivity.getWindowManager().getDefaultDisplay().getRotation();
+        Matrix matrix = new Matrix();
+        RectF viewRect = new RectF(0, 0, viewWidth, viewHeight);
+        RectF bufferRect = new RectF(0, 0, mPreviewSize.getHeight(), mPreviewSize.getWidth());
+        float centerX = viewRect.centerX();
+        float centerY = viewRect.centerY();
+        if (Surface.ROTATION_90 == rotation || Surface.ROTATION_270 == rotation) {
+            bufferRect.offset(centerX - bufferRect.centerX(), centerY - bufferRect.centerY());
+            matrix.setRectToRect(viewRect, bufferRect, Matrix.ScaleToFit.FILL);
+            float scale = Math.max(
+                    (float) viewHeight / mPreviewSize.getHeight(),
+                    (float) viewWidth / mPreviewSize.getWidth());
+            matrix.postScale(scale, scale, centerX, centerY);
+            matrix.postRotate(90 * (rotation - 2), centerX, centerY);
+        } else if (Surface.ROTATION_180 == rotation) {
+            matrix.postRotate(180, centerX, centerY);
+        }
+        mTextureView.setTransform(matrix);
     }
 
     // 设置相机相关参数变量
-    private void setupCameraOutputs(int viewWidth, int viewHeight) {
-        CameraManager manager = (CameraManager) mContext.getSystemService(Context.CAMERA_SERVICE);
-
+    /**
+     * Sets up member variables related to camera.
+     *
+     * @param width  The width of available size for camera preview
+     * @param height The height of available size for camera preview
+     */
+    private void setupCameraOutputs(int width, int height) {
+        CameraManager manager = (CameraManager) mActivity.getSystemService(Context.CAMERA_SERVICE);
         try {
             for (String cameraId : manager.getCameraIdList()) {
                 CameraCharacteristics characteristics
@@ -345,7 +381,7 @@ public class Camera2Helper {
 
                 // We don't use a front facing camera in this sample.
                 Integer facing = characteristics.get(CameraCharacteristics.LENS_FACING);
-                if (facing != null && facing == CameraCharacteristics.LENS_FACING_BACK) {
+                if (facing != null && facing == CameraCharacteristics.LENS_FACING_FRONT) {
                     continue;
                 }
 
@@ -358,7 +394,7 @@ public class Camera2Helper {
                 // For still image captures, we use the largest available size.
                 Size largest = Collections.max(
                         Arrays.asList(map.getOutputSizes(ImageFormat.JPEG)),
-                        new Camera2Helper.CompareSizesByArea());
+                        new CompareSizesByArea());
                 mImageReader = ImageReader.newInstance(largest.getWidth(), largest.getHeight(),
                         ImageFormat.JPEG, /*maxImages*/2);
                 mImageReader.setOnImageAvailableListener(
@@ -389,14 +425,14 @@ public class Camera2Helper {
 
                 Point displaySize = new Point();
                 mActivity.getWindowManager().getDefaultDisplay().getSize(displaySize);
-                int rotatedPreviewWidth = viewWidth;
-                int rotatedPreviewHeight = viewHeight;
+                int rotatedPreviewWidth = width;
+                int rotatedPreviewHeight = height;
                 int maxPreviewWidth = displaySize.x;
                 int maxPreviewHeight = displaySize.y;
 
                 if (swappedDimensions) {
-                    rotatedPreviewWidth = viewHeight;
-                    rotatedPreviewHeight = viewWidth;
+                    rotatedPreviewWidth = height;
+                    rotatedPreviewHeight = width;
                     maxPreviewWidth = displaySize.y;
                     maxPreviewHeight = displaySize.x;
                 }
@@ -438,7 +474,7 @@ public class Camera2Helper {
         } catch (NullPointerException e) {
             // Currently an NPE is thrown when the Camera2API is used but not supported on the
             // device this code runs.
-//            Camera2BasicFragment.ErrorDialog.newInstance(getString(R.string.camera_error))
+//            ErrorDialog.newInstance(getString(R.string.camera_error))
 //                    .show(getChildFragmentManager(), FRAGMENT_DIALOG);
         }
     }
