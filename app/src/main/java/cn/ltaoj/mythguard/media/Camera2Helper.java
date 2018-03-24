@@ -27,7 +27,6 @@ import android.support.annotation.NonNull;
 import android.util.Log;
 import android.util.Size;
 import android.view.Surface;
-import android.view.SurfaceView;
 import android.view.TextureView;
 
 import java.io.File;
@@ -164,10 +163,40 @@ public class Camera2Helper {
 
         @Override
         public void onImageAvailable(ImageReader reader) {
-            mBackgroundHandler.post(new Camera2Helper.ImageSaver(reader.acquireNextImage(), mFile));
+            // 得到内存中的图片,内存中图片像素大小可以根据ImageReader得到
+            Image image = reader.acquireNextImage();
+            // 检测图片中的人脸是否可以作为人脸库
+            if (faceDetected(imageInRect(image))) {
+                // 将符合要求的人脸帧保存为本地图片
+                mBackgroundHandler.post(new Camera2Helper.ImageSaver(reader.acquireNextImage(), mFile));
+                // 暂停相机捕获
+                // 更新相关UI界面，提示用户
+            }
         }
 
     };
+
+    /**
+     * 将图片中Rect区域裁剪出
+     * @param image 为内存中的图像，像素大小可以通过ImageReader{@link #mImageReader}获取
+     *              另外通过{@link #mTextureView}可以获取到预览区域的大小，通过{@link #mRect}
+     *              与{@link #mTextureView}的比例关系从{@param #image}中截取
+     * @return 截取之后的Image
+     */
+    private Image imageInRect(Image image) {
+
+        return null;
+    }
+
+    /**
+     * 检测Image是否存在人脸图像，并且可以作为人脸库
+     * @param image
+     * @return
+     */
+    private boolean faceDetected(Image image) {
+
+        return true;
+    }
 
     /**
      * The current state of camera state for taking pictures.
