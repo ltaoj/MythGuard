@@ -164,17 +164,31 @@ public class Camera2Helper {
         @Override
         public void onImageAvailable(ImageReader reader) {
             // 得到内存中的图片,内存中图片像素大小可以根据ImageReader得到
-            Image image = reader.acquireNextImage();
-            // 检测图片中的人脸是否可以作为人脸库
-            if (faceDetected(imageInRect(image))) {
-                // 将符合要求的人脸帧保存为本地图片
-                mBackgroundHandler.post(new Camera2Helper.ImageSaver(reader.acquireNextImage(), mFile));
-                // 暂停相机捕获
-                // 更新相关UI界面，提示用户
+            // 将得到的图片裁剪后，提供给接口事件进行处理，
+            // 同时相机管理类提供一些内部状态控制接口，降低与图片检测类的耦合度
+            if (mFrameProcessListener != null) {
+                mFrameProcessListener.processImageFrame(imageInRect(reader.acquireNextImage()));
             }
+//            // 检测图片中的人脸是否可以作为人脸库
+//            if (faceDetected(imageInRect(image))) {
+//                // 将符合要求的人脸帧保存为本地图片
+//                mBackgroundHandler.post(new Camera2Helper.ImageSaver(reader.acquireNextImage(), mFile));
+//                // 暂停相机捕获
+//                // 更新相关UI界面，提示用户
+//            }
         }
 
     };
+
+    /**
+     * 将图片保存到应用目录下文件系统
+     * @param image
+     */
+    public void saveImageToFile(Image image) {
+        if (image != null) {
+            mBackgroundHandler.post(new ImageSaver(image, mFile));
+        }
+    }
 
     /**
      * 将图片中Rect区域裁剪出
@@ -184,19 +198,26 @@ public class Camera2Helper {
      * @return 截取之后的Image
      */
     private Image imageInRect(Image image) {
+        try {
 
+        }finally {
+//            bug fix : java.lang.IllegalStateException: maxImages (2) has already been acquired, call #close before acquiring more.
+//            image must be closed finally
+//            date : 2018年3月24日23:38:10
+            image.close();
+        }
         return null;
     }
-
-    /**
-     * 检测Image是否存在人脸图像，并且可以作为人脸库
-     * @param image
-     * @return
-     */
-    private boolean faceDetected(Image image) {
-
-        return true;
-    }
+//
+//    /**
+//     * 检测Image是否存在人脸图像，并且可以作为人脸库
+//     * @param image
+//     * @return
+//     */
+//    private boolean faceDetected(Image image) {
+//
+//        return true;
+//    }
 
     /**
      * The current state of camera state for taking pictures.
@@ -829,5 +850,20 @@ public class Camera2Helper {
             Log.e(TAG, "Couldn't find any suitable preview size");
             return choices[0];
         }
+    }
+
+    public interface FrameProcessListener {
+
+        /**
+         * 对每一帧图片进行处理
+         * @param frame
+         */
+        void processImageFrame(Image frame);
+    }
+
+    private FrameProcessListener mFrameProcessListener;
+
+    public void setFrameProcessListener(FrameProcessListener frameProcessListener) {
+        this.mFrameProcessListener = frameProcessListener;
     }
 }

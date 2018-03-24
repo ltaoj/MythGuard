@@ -1,14 +1,13 @@
 package cn.ltaoj.mythguard.ui.activity;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.pm.PackageManager;
-import android.graphics.SurfaceTexture;
+import android.graphics.RectF;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.SurfaceView;
-import android.view.TextureView;
 import android.view.View;
 import android.widget.RelativeLayout;
 
@@ -16,8 +15,8 @@ import java.util.Arrays;
 
 import cn.ltaoj.mythguard.R;
 import cn.ltaoj.mythguard.base.MVPBaseActivity;
-import cn.ltaoj.mythguard.media.Camera2Helper;
-import cn.ltaoj.mythguard.mvp.presenter.BasePresenter;
+import cn.ltaoj.mythguard.mvp.presenter.ScanPresenter;
+import cn.ltaoj.mythguard.mvp.view.IScanView;
 import cn.ltaoj.mythguard.util.ToastUtil;
 import cn.ltaoj.mythguard.widget.AutoFitTextureView;
 import cn.ltaoj.widget.FacePreview;
@@ -26,7 +25,7 @@ import cn.ltaoj.widget.FacePreview;
  * Created by ltaoj on 2018/3/20 16:13.
  */
 
-public class ScanActivity extends MVPBaseActivity {
+public class ScanActivity extends MVPBaseActivity<IScanView, ScanPresenter> implements IScanView{
     private static final String TAG = "ScanActivity";
 
     private static final int layoutId = R.layout.activity_scan;
@@ -37,29 +36,29 @@ public class ScanActivity extends MVPBaseActivity {
     private FacePreview mScanView;
 
 
-    private Camera2Helper mCamera2Helper;
+//    private Camera2Helper mCamera2Helper;
 
-    private TextureView.SurfaceTextureListener mTextureListener = new TextureView.SurfaceTextureListener() {
-        @Override
-        public void onSurfaceTextureAvailable(SurfaceTexture surface, int width, int height) {
-            mCamera2Helper.startPreview();
-        }
-
-        @Override
-        public void onSurfaceTextureSizeChanged(SurfaceTexture surface, int width, int height) {
-            mCamera2Helper.configureTransform(mTextureView.getWidth(), mTextureView.getHeight());
-        }
-
-        @Override
-        public boolean onSurfaceTextureDestroyed(SurfaceTexture surface) {
-            return false;
-        }
-
-        @Override
-        public void onSurfaceTextureUpdated(SurfaceTexture surface) {
-
-        }
-    };
+//    private TextureView.SurfaceTextureListener mTextureListener = new TextureView.SurfaceTextureListener() {
+//        @Override
+//        public void onSurfaceTextureAvailable(SurfaceTexture surface, int width, int height) {
+//            mCamera2Helper.startPreview();
+//        }
+//
+//        @Override
+//        public void onSurfaceTextureSizeChanged(SurfaceTexture surface, int width, int height) {
+//            mCamera2Helper.configureTransform(mTextureView.getWidth(), mTextureView.getHeight());
+//        }
+//
+//        @Override
+//        public boolean onSurfaceTextureDestroyed(SurfaceTexture surface) {
+//            return false;
+//        }
+//
+//        @Override
+//        public void onSurfaceTextureUpdated(SurfaceTexture surface) {
+//
+//        }
+//    };
 
     @Override
     protected void initView() {
@@ -82,25 +81,29 @@ public class ScanActivity extends MVPBaseActivity {
 
         checkPermissions();
         configFacePreview();
-        mCamera2Helper = new Camera2Helper(this);
-        mCamera2Helper.setTextureView(mTextureView);
-        mCamera2Helper.setRect(mScanView.getRect());
+
+        mPresenter.initCameraHelper();
+//        mCamera2Helper = new Camera2Helper(this);
+//        mCamera2Helper.setTextureView(mTextureView);
+//        mCamera2Helper.setRect(mScanView.getRect());
     }
 
     @Override
     protected void onResume() {
         super.onResume();
 
-        if (mTextureView.isAvailable()) {
-            mCamera2Helper.startPreview();
-        } else {
-            mTextureView.setSurfaceTextureListener(mTextureListener);
-        }
+//        if (mTextureView.isAvailable()) {
+//            mCamera2Helper.startPreview();
+//        } else {
+//            mTextureView.setSurfaceTextureListener(mTextureListener);
+//        }
+        mPresenter.startPreview();
     }
 
     @Override
     protected void onPause() {
-        mCamera2Helper.stopPreview();
+        mPresenter.stopPreview();
+//        mCamera2Helper.stopPreview();
         super.onPause();
     }
 
@@ -177,12 +180,27 @@ public class ScanActivity extends MVPBaseActivity {
     }
 
     @Override
-    protected BasePresenter createPresenter() {
-        return null;
+    protected ScanPresenter createPresenter() {
+        return new ScanPresenter(this);
     }
 
     @Override
     public void onClick(View v) {
 
+    }
+
+    @Override
+    public Activity getActivity() {
+        return this;
+    }
+
+    @Override
+    public AutoFitTextureView getTextureView() {
+        return mTextureView;
+    }
+
+    @Override
+    public RectF getPreviewRect() {
+        return mScanView.getRect();
     }
 }
