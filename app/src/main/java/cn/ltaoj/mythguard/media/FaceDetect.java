@@ -1,5 +1,6 @@
 package cn.ltaoj.mythguard.media;
 
+import android.graphics.Rect;
 import android.media.Image;
 import android.util.Log;
 
@@ -25,6 +26,15 @@ public class FaceDetect implements IFaceDetect<AFD_FSDKFace>{
     // SDK的SDK KEY
     private static final String FD_SDK_KEY = "FqDgzcMmZbeJfsxCfp9C9JWcuufWYD5aQMBfKwTFrSBp";
     private static final boolean DEBUG = true;
+
+    // 没有检测到人脸
+    public static final int FACE_NO_RESULT = -4;
+    // 脸部角度不符合要求
+    public static final int FACE_DEGREE_NO_MATCH = -3;
+    // 脸部大小不符合要求
+    public static final int FACE_AREA_NO_MATCH = -2;
+    // 参数错误或者调用错误引起的异常
+    public static final int NORMAL_ERROR = -1;
 
     private AFD_FSDKEngine mEngine;
 
@@ -78,7 +88,7 @@ public class FaceDetect implements IFaceDetect<AFD_FSDKFace>{
      */
     @Override
     public int detect(Image image, List<AFD_FSDKFace> result) {
-        if (image == null) return -1;
+        if (image == null) return NORMAL_ERROR;
 
         int width = image.getWidth();
         int height = image.getHeight();
@@ -99,11 +109,21 @@ public class FaceDetect implements IFaceDetect<AFD_FSDKFace>{
             face = result.get(0);
         }
 
-        // 如果此人脸位置角度偏移太大，则不符合要求
-//        if (face != null) {
-//
-//        }
-        return face == null ? -1 : result.indexOf(face);
+        if (face == null) {
+            return FACE_NO_RESULT;
+        }
+
+        if (isFaceTooSmall(image, face.getRect())) {
+            return FACE_AREA_NO_MATCH;
+        }
+        if (DEBUG) {
+            Log.d(TAG, "detect: degree = " + face.getDegree());
+        }
+        if (!isFacePortrait(face.getDegree())) {
+            return FACE_DEGREE_NO_MATCH;
+        }
+
+        return result.indexOf(face);
     }
 
     /**
@@ -149,5 +169,20 @@ public class FaceDetect implements IFaceDetect<AFD_FSDKFace>{
         public int compare(AFD_FSDKFace o1, AFD_FSDKFace o2) {
             return Long.signum(o1.getRect().width() * o1.getRect().height() - o2.getRect().width() * o2.getRect().height());
         }
+    }
+
+    /**
+     * 判断图片中脸部是否太小
+     * @param image
+     * @param rect
+     * @return
+     */
+    private boolean isFaceTooSmall(Image image, Rect rect) {
+        int faceArea = rect.width() * rect.height();
+        return faceArea <= (image.getWidth() * image.getHeight()) * 0.4;
+    }
+
+    private boolean isFacePortrait(int degree) {
+        return degree <= 15 || degree >= 345;
     }
 }
