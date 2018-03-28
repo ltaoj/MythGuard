@@ -71,15 +71,15 @@ public class AutoFitTextureView extends TextureView {
             if (width < height * mRatioWidth / mRatioHeight) {
 //                setMeasuredDimension(width, width * mRatioHeight / mRatioWidth);
                 setMeasuredDimension(height * mRatioWidth / mRatioHeight, height);
-                Matrix matrix = new Matrix();
-                matrix.setTranslate((height * mRatioWidth / mRatioHeight - width) / 2, 0);
-                this.setTransform(matrix);
+//                Matrix matrix = new Matrix();
+//                matrix.setTranslate((height * mRatioWidth / mRatioHeight - width) / 2, 0);
+//                this.setTransform(matrix);
             } else {
 //                setMeasuredDimension(height * mRatioWidth / mRatioHeight, height);
                 setMeasuredDimension(width, width * mRatioHeight / mRatioWidth);
-                Matrix matrix = new Matrix();
-                matrix.setTranslate(0, (width * mRatioHeight / mRatioWidth - height) / 2);
-                this.setTransform(matrix);
+//                Matrix matrix = new Matrix();
+//                matrix.setTranslate(0, (width * mRatioHeight / mRatioWidth - height) / 2);
+//                this.setTransform(matrix);
             }
         }
     }
