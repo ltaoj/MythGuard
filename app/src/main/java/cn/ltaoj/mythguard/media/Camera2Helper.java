@@ -7,8 +7,10 @@ import android.content.res.Configuration;
 import android.graphics.ImageFormat;
 import android.graphics.Matrix;
 import android.graphics.Point;
+import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.SurfaceTexture;
+import android.graphics.YuvImage;
 import android.hardware.camera2.CameraAccessException;
 import android.hardware.camera2.CameraCaptureSession;
 import android.hardware.camera2.CameraCharacteristics;
@@ -24,11 +26,13 @@ import android.media.ImageReader;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.support.annotation.NonNull;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.Size;
 import android.view.Surface;
 import android.view.TextureView;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -51,7 +55,7 @@ import cn.ltaoj.mythguard.widget.AutoFitTextureView;
 public class Camera2Helper {
     private static final String TAG = "CameraManager2";
 
-    private static final boolean DEBUG = true;
+    private static final boolean DEBUG = false;
 
     // 前置摄像头
     private static final String FACING_FRONT = "1";
@@ -192,15 +196,65 @@ public class Camera2Helper {
 
     /**
      * 将图片中Rect区域裁剪出
-     * @param image 为内存中的图像，像素大小可以通过ImageReader{@link #mImageReader}获取
+     * @param image 为内存中的图像,格式为{@link ImageFormat#YUV_420_888}，像素大小可以通过ImageReader{@link #mImageReader}获取
      *              另外通过{@link #mTextureView}可以获取到预览区域的大小，通过{@link #mRect}
      *              与{@link #mTextureView}的比例关系从{@param #image}中截取
-     * @return 截取之后的Image
+     * @return 截取之后的Image, 为{@link YuvImage}对象，图片格式为{@link ImageFormat#NV21}
      */
-    private Image imageInRect(Image image) {
-        try {
+    private YuvImage imageInRect(Image image) {
+        if (image == null || image.getFormat() != ImageFormat.YUV_420_888) {
+            throw new IllegalArgumentException("image must not be null and " +
+                    "only support ImageFormat.YUV_420_888");
+        }
 
-        }finally {
+        // 通过将image中三个通道的数据写到一个byte数组，然后构造YuvImage
+        try {
+//            ByteBuffer bufferY = image.getPlanes()[0].getBuffer();
+//            ByteBuffer bufferU = image.getPlanes()[1].getBuffer();
+//            ByteBuffer bufferV = image.getPlanes()[2].getBuffer();
+//
+//            byte[] bytes1 = new byte[bufferY.remaining()];
+//            byte[] bytes2 = new byte[bufferU.remaining()];
+//            byte[] bytes3 = new byte[bufferV.remaining()];
+//
+//            bufferY.get(bytes1);
+//            bufferU.get(bytes2);
+//            bufferV.get(bytes3);
+
+//            byte[] yuv = concatYUVArray(bytes1, bytes2, bytes3, image.getPlanes()[0].getRowStride());
+            Rect cropRect = computeCropRect(image);
+
+//            byte[] yuv = YUV420Convert.getDataFromImage(image, YUV420Convert.COLOR_FormatNV21);
+//            int cropWidth = cropRect.width()+4-cropRect.width()%4;
+//            int cropHeight = cropRect.height();
+//            int cropLeft = cropRect.left+4-cropRect.left%4;
+//            int cropTop = cropRect.top;
+            byte[] cutYuv = YUV420Convert.cutYuvImage(image, YUV420Convert.COLOR_FormatNV21, cropRect);
+            YuvImage yuvImage = new YuvImage(cutYuv, ImageFormat.NV21, cropRect.width(), cropRect.height(), null);
+
+            if (DEBUG) {
+                Log.d(TAG, "imageInRect: Planes count = [" + image.getPlanes().length + "] \n" +
+                        "PixelStride = [" + image.getPlanes()[0].getPixelStride() + "] \n" +
+                        "RowStride = [" + image.getPlanes()[0].getRowStride() + "] \n");
+                for (int i = 0;i < yuvImage.getStrides().length;i++) {
+                    Log.d(TAG, "imageInRect: stride[" + i + "] = " + yuvImage.getStrides()[i]);
+                }
+
+                Log.d(TAG, "*********************percent=" + (float)cutYuv.length / (cropRect.width()*cropRect.height()));
+//                Log.d(TAG, "imageInRect: byte1.length = [" + bytes1.length + "] \n" +
+//                        "byte2.length = [" + bytes2.length + "] \n" +
+//                        "byte3.length = [" + bytes3.length + "]");
+            }
+//            byte[] data = new byte[buffer.remaining()];
+//            buffer.get(data);
+//            YuvImage yuvImage = new YuvImage();
+//            Bitmap bitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
+
+//            Bitmap result = Bitmap.createBitmap(bitmap, 0, 0, 100, 100);
+            return yuvImage;
+        }catch (Exception e) {
+            e.printStackTrace();
+        } finally {
 //            bug fix : java.lang.IllegalStateException: maxImages (2) has already been acquired, call #close before acquiring more.
 //            image must be closed finally
 //            date : 2018年3月24日23:38:10
@@ -208,6 +262,84 @@ public class Camera2Helper {
         }
         return null;
     }
+
+    /**
+     * 将内存中的图片进行裁剪
+     * @param image
+     * @return 返回裁剪区域
+     */
+    private Rect computeCropRect(Image image) {
+        // 相机显示区域的Rect
+        Rect realPreviewRect = new Rect(mTextureView.getLeft(), mTextureView.getTop(), mTextureView.getRight(), mTextureView.getBottom());
+        if (mTextureView.getLeft() != 0 || mTextureView.getTop() != 0) {
+            realPreviewRect.offsetTo(0, 0);
+        }
+        // FacePreview的Rect为mRect
+
+        // 内存中图像的Rect
+        Rect imageRect = new Rect(0, 0, image.getWidth(), image.getHeight());
+
+        // 获取屏幕宽高
+        int screenWidth = mContext.getResources().getDisplayMetrics().widthPixels;
+        int screenHeight = mContext.getResources().getDisplayMetrics().heightPixels;
+
+        // 首先在内存中剪裁出屏幕区域
+        int cropScreenWidth = screenHeight * imageRect.width() / realPreviewRect.height();
+        int cropScreenHeight = screenWidth * imageRect.height() / realPreviewRect.width();
+
+        // 通过比例关系计算从内存的屏幕区域中剪裁的宽高
+        int cropWidth = (int)(mRect.height() * cropScreenWidth / screenHeight);
+        int cropHeight = (int)(mRect.width() * cropScreenHeight / screenWidth);
+
+        // 实际的Rect区域
+        int cropLeft = (cropScreenWidth - cropWidth) / 2;
+        int cropTop = (cropScreenHeight - cropHeight) / 2 + imageRect.height() - cropScreenHeight;
+        int cropRight = (cropScreenWidth + cropWidth) / 2;
+        int cropBottom = (cropScreenHeight + cropHeight) / 2 + imageRect.height() - cropScreenHeight;
+        return new Rect(cropLeft, cropTop, cropRight, cropBottom);
+    }
+
+    /**
+     * 将三个byte数组合并为一个
+     * NV21 比如4*4的图片  YYYYYYYYYYYYYYYYUVUVUVUV
+     * YUV_420_888(I420) 比如4*4的图片 YYYYYYYYYYYYYYYYUUUUVVVV
+     * @param Y
+     * @param U
+     * @param V
+     * @return 返回合并后的byte数组
+     */
+    private byte[] concatYUVArray(byte[] Y, byte[] U, byte[] V, int rowStride) {
+
+        byte[] uv = new byte[U.length + 1];
+
+        byte[] unitBytes = new byte[Y.length + uv.length];
+
+//        // 表示U每行字节数
+//        int rowByteCount = rowStride / 2;
+//        // 表示第几个U行
+//        int whichRow = 0;
+//        // 表示该行第几个
+//        int whichIndex = 0;
+        // 步长
+        int outputStride = 2;
+        // 写入UV数据
+        for (int i = 0;i < U.length;i++) {
+            if (i % 2 == 0) {
+                uv[i] = U[i];
+                uv[i + outputStride / 2] = V[i];
+            }
+//            whichRow = i / rowByteCount;
+//            whichIndex = i % rowByteCount;
+//            uv[rowStride * whichRow + whichIndex] = U[i];
+//            uv[rowStride * whichRow + whichIndex + rowByteCount] = V[i];
+        }
+
+        System.arraycopy(Y, 0, unitBytes, 0, Y.length);
+//        System.arraycopy(U, 0, unitBytes, Y.length, U.length);
+        System.arraycopy(uv, 0, unitBytes, Y.length, uv.length);
+        return unitBytes;
+    }
+
 //
 //    /**
 //     * 检测Image是否存在人脸图像，并且可以作为人脸库
@@ -443,10 +575,10 @@ public class Camera2Helper {
 
                 // For still image captures, we use the largest available size.
                 Size largest = Collections.max(
-                        Arrays.asList(map.getOutputSizes(ImageFormat.JPEG)),
+                        Arrays.asList(map.getOutputSizes(ImageFormat.YUV_420_888)),
                         new CompareSizesByArea());
                 mImageReader = ImageReader.newInstance(largest.getWidth(), largest.getHeight(),
-                        ImageFormat.JPEG, /*maxImages*/2);
+                        ImageFormat.YUV_420_888, /*maxImages*/2);
                 mImageReader.setOnImageAvailableListener(
                         mOnImageAvailableListener, mBackgroundHandler);
 
@@ -537,6 +669,13 @@ public class Camera2Helper {
     private void openCamera(String cameraId) {
         setupCameraOutputs(mTextureView.getWidth(), mTextureView.getHeight());
         configureTransform(mTextureView.getWidth(), mTextureView.getHeight());
+
+        if (DEBUG) {
+            Log.d(TAG, "openCamera: mTextureView size width=[" + mTextureView.getWidth() +
+                    "] height=[" + mTextureView.getHeight() + "] [left,top,right,bottom] = [" +
+                    mTextureView.getLeft() + "," + mTextureView.getTop() + "," +
+                    mTextureView.getRight() + "," + mTextureView.getBottom() + "]");
+        }
 
         CameraManager cameraManager = (CameraManager) mContext.getSystemService(Context.CAMERA_SERVICE);
         try {
@@ -858,7 +997,7 @@ public class Camera2Helper {
          * 对每一帧图片进行处理
          * @param frame
          */
-        void processImageFrame(Image frame);
+        void processImageFrame(YuvImage frame);
     }
 
     private FrameProcessListener mFrameProcessListener;
