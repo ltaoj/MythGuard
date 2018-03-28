@@ -1,14 +1,15 @@
 package cn.ltaoj.mythguard.media;
 
+import android.graphics.Bitmap;
 import android.graphics.Rect;
-import android.media.Image;
+import android.graphics.YuvImage;
 import android.util.Log;
 
 import com.arcsoft.facedetection.AFD_FSDKEngine;
 import com.arcsoft.facedetection.AFD_FSDKError;
 import com.arcsoft.facedetection.AFD_FSDKFace;
 
-import java.nio.ByteBuffer;
+import java.io.ByteArrayOutputStream;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -25,7 +26,7 @@ public class FaceDetect implements IFaceDetect<AFD_FSDKFace>{
     private static final String FD_APP_ID = "BeQUado7GgZXX7B6tNvRicYd8SAxxHYK9X1srSYhkk3z";
     // SDK的SDK KEY
     private static final String FD_SDK_KEY = "FqDgzcMmZbeJfsxCfp9C9JWcuufWYD5aQMBfKwTFrSBp";
-    private static final boolean DEBUG = true;
+    private static final boolean DEBUG = false;
 
     // 没有检测到人脸
     public static final int FACE_NO_RESULT = -4;
@@ -82,21 +83,23 @@ public class FaceDetect implements IFaceDetect<AFD_FSDKFace>{
 
     /**
      *
-     * @param image 可能包含人脸的图像
+     * @param yuvImage 可能包含人脸的图像
      * @param result 保存识别结果
      * @return 推荐结果下标, 没有推荐的返回-1
      */
     @Override
-    public int detect(Image image, List<AFD_FSDKFace> result) {
-        if (image == null) return NORMAL_ERROR;
+    public int detect(YuvImage yuvImage, List<AFD_FSDKFace> result) {
+        if (yuvImage == null) return NORMAL_ERROR;
 
-        int width = image.getWidth();
-        int height = image.getHeight();
+        int width = yuvImage.getWidth();
+        int height = yuvImage.getHeight();
         if (height % 2 != 0) height++;
-
-        AFD_FSDKError err = process(convertBytes(image), width, height, result);
+        
+        AFD_FSDKError err = process(convertBytes(yuvImage), width, height, result);
 
         if (DEBUG) {
+            Log.d(TAG, "detect: width = " + width);
+            Log.d(TAG, "detect: height = " + height);
             Log.d(TAG, "detect: error = " + err.getCode());
         }
 
@@ -113,7 +116,7 @@ public class FaceDetect implements IFaceDetect<AFD_FSDKFace>{
             return FACE_NO_RESULT;
         }
 
-        if (isFaceTooSmall(image, face.getRect())) {
+        if (isFaceTooSmall(yuvImage, face.getRect())) {
             return FACE_AREA_NO_MATCH;
         }
         if (DEBUG) {
@@ -127,15 +130,18 @@ public class FaceDetect implements IFaceDetect<AFD_FSDKFace>{
     }
 
     /**
-     * 将Image对象转换为byte数据
-     * @param image
+     * 将YuvImage对象转换为byte数据
+     * @param yuvImage
      * @return
      */
-    private byte[] convertBytes(Image image) {
-        ByteBuffer buffer = image.getPlanes()[0].getBuffer();
-        byte[] bytes = new byte[buffer.remaining()];
-        buffer.get(bytes);
-        return bytes;
+    private byte[] convertBytes(YuvImage yuvImage) {
+//        ByteBuffer buffer = image.getPlanes()[0].getBuffer();
+//        byte[] bytes = new byte[buffer.remaining()];
+//        buffer.get(bytes);
+
+//        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+//        yuvImage.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        return yuvImage.getYuvData();
     }
 
     /**
@@ -143,6 +149,7 @@ public class FaceDetect implements IFaceDetect<AFD_FSDKFace>{
      * @param data 图像byte数据
      * @param width 图像像素宽度
      * @param height 图像像素高度,height不能为奇数
+     * @return 返回2, 表示参数无效
      */
     private AFD_FSDKError process(byte[] data, int width, int height, List<AFD_FSDKFace> result) {
         AFD_FSDKError err = null;
@@ -173,13 +180,13 @@ public class FaceDetect implements IFaceDetect<AFD_FSDKFace>{
 
     /**
      * 判断图片中脸部是否太小
-     * @param image
+     * @param yuvImage
      * @param rect
      * @return
      */
-    private boolean isFaceTooSmall(Image image, Rect rect) {
+    private boolean isFaceTooSmall(YuvImage yuvImage, Rect rect) {
         int faceArea = rect.width() * rect.height();
-        return faceArea <= (image.getWidth() * image.getHeight()) * 0.4;
+        return faceArea <= (yuvImage.getWidth() * yuvImage.getHeight()) * 0.4;
     }
 
     private boolean isFacePortrait(int degree) {
