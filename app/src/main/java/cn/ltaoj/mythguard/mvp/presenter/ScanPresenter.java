@@ -1,8 +1,10 @@
 package cn.ltaoj.mythguard.mvp.presenter;
 
+import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.SurfaceTexture;
+import android.graphics.YuvImage;
 import android.media.Image;
-import android.util.Log;
 import android.view.TextureView;
 
 import com.arcsoft.facedetection.AFD_FSDKFace;
@@ -16,6 +18,11 @@ import cn.ltaoj.mythguard.media.IFaceDetect;
 import cn.ltaoj.mythguard.mvp.model.ScanModel;
 import cn.ltaoj.mythguard.mvp.model.impl.ScanModelimpl;
 import cn.ltaoj.mythguard.mvp.view.IScanView;
+import cn.ltaoj.mythguard.util.ToastUtil;
+
+import static cn.ltaoj.mythguard.mvp.presenter.RegistTwoPresenter.ACTIVITY_RESULT_CODE;
+import static cn.ltaoj.mythguard.mvp.presenter.RegistTwoPresenter.SCAN_RESULT_FAILED;
+import static cn.ltaoj.mythguard.mvp.presenter.RegistTwoPresenter.SCAN_RESULT_OK;
 
 /**
  * Created by ltaoj on 2018/3/24 23:00.
@@ -59,14 +66,39 @@ public class ScanPresenter extends BasePresenter<IScanView> {
 
     /**
      * 图像帧处理接口
+     * 待优化的地方，这个回调函数基本上一直在进行，所以会一直弹出Toast，应进行控制
+     * 可以设置定时器，多长时间返回相同状态，弹出Toast
      */
     private Camera2Helper.FrameProcessListener mFrameProcessListener = new Camera2Helper.FrameProcessListener() {
         @Override
-        public void processImageFrame(Image frame) {
+        public void processImageFrame(YuvImage frame) {
             List<AFD_FSDKFace> result = new ArrayList<>();
             int nRet = mFaceDetect.detect(frame, result);
             switch (nRet) {
-                // do something
+                case FaceDetect.FACE_NO_RESULT:
+                    ToastUtil.showToast(mScanView.getActivity(), "请将脸部对准矩形区域");
+                    break;
+                case FaceDetect.NORMAL_ERROR:
+                    ToastUtil.showToast(mScanView.getActivity(), "检测内部错误");
+                    break;
+                case FaceDetect.FACE_AREA_NO_MATCH:
+                    ToastUtil.showToast(mScanView.getActivity(), "请尽量将脸部占满矩形区域");
+                    break;
+                case FaceDetect.FACE_DEGREE_NO_MATCH:
+                    ToastUtil.showToast(mScanView.getActivity(), "请尽量将脸部和屏幕保持竖直");
+                    break;
+                default:
+                    // 符合要求的结果
+                    AFD_FSDKFace face = result.get(nRet); // 包含frame中脸部的位置以及角度
+                    // 将frame保存到本地
+                    mScanModel.saveImage(frame, face);
+                    // 返回值
+                    Intent intent = new Intent();
+                    intent.putExtra("scanRes", SCAN_RESULT_OK);
+                    mScanView.getActivity().setResult(ACTIVITY_RESULT_CODE, intent);
+                    // 关闭当前活动页面
+                    mScanView.finishActivity();
+                    break;
             }
         }
     };
@@ -74,6 +106,7 @@ public class ScanPresenter extends BasePresenter<IScanView> {
     public ScanPresenter(IScanView scanView) {
         this.mScanView = scanView;
         this.mFaceDetect = new FaceDetect();
+        this.mScanModel.setParentFile(mScanView.getActivity().getExternalFilesDir(null));
     }
 
     /**
@@ -113,5 +146,15 @@ public class ScanPresenter extends BasePresenter<IScanView> {
         if (!faceDetect.needInitEngine()) {
             faceDetect.closeEngine();
         }
+    }
+
+    /**
+     * 处理返回按钮事件
+     */
+    public void pocsBackPressed() {
+        Intent intent = new Intent();
+        intent.putExtra("scanRes", SCAN_RESULT_FAILED);
+        mScanView.getActivity().setResult(ACTIVITY_RESULT_CODE, intent);
+        mScanView.finishActivity();
     }
 }

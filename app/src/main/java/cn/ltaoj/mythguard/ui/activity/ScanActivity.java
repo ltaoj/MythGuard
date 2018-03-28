@@ -203,4 +203,14 @@ public class ScanActivity extends MVPBaseActivity<IScanView, ScanPresenter> impl
     public RectF getPreviewRect() {
         return mScanView.getRect();
     }
+
+    @Override
+    public void finishActivity() {
+        this.finish();
+    }
+
+    @Override
+    public void onBackPressed() {
+        mPresenter.pocsBackPressed();
+    }
 }

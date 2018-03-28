@@ -1,7 +1,6 @@
 package cn.ltaoj.mythguard.mvp.view;
 
 import android.app.Activity;
-import android.graphics.Rect;
 import android.graphics.RectF;
 
 import cn.ltaoj.mythguard.widget.AutoFitTextureView;
@@ -28,4 +27,9 @@ public interface IScanView {
      * @return
      */
     RectF getPreviewRect();
+
+    /**
+     * 关闭当前Activity
+     */
+    void finishActivity();
 }
