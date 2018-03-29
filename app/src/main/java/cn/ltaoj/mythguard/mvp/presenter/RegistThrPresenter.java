@@ -105,12 +105,22 @@ public class RegistThrPresenter extends BasePresenter<IRegistViewThr> {
      * 注册，从本地获取缓存信息，通过api提交后台
      */
     public void doRegist() {
+        // 保存页面数据
+        if (!mRegistModel.getRegistType().equals("")) {
+            if (mRegistModel.getRegistType().equals("住户")) {
+                mRegistModel.saveStepThrHouseNum(mRegistViewThr.getEditValue(IRegistViewThr.InputType.HOUSE_NUMBER));
+            } else if (mRegistModel.getRegistType().equals("常驻住户")) {
+                mRegistModel.saveStepThrHolderId(mRegistViewThr.getEditValue(IRegistViewThr.InputType.HOLDER_ID));
+            }
+        }
+
         mRegistViewThr.showLoading();
         // 从本地获取每一步填写的数据
         mRegistModel.loadRegistData(new DataListener<RegistData>() {
             @Override
             public void onComplete(final RegistData result) {
                 if (result == null) {
+                    ToastUtil.showToast(mRegistView.getActivity(), "注册数据异常，请重新注册");
                     mRegistViewThr.hideLoading();
                     return;
                 }
@@ -118,6 +128,7 @@ public class RegistThrPresenter extends BasePresenter<IRegistViewThr> {
                 File zipImages = mScanModel.loadZipImage(ScanModel.ImageType.FACE);
                 if (zipImages == null) {
                     mRegistViewThr.hideLoading();
+                    ToastUtil.showToast(mRegistView.getActivity(), "人脸数据异常，请重新注册");
                     return;
                 }
 
@@ -148,6 +159,8 @@ public class RegistThrPresenter extends BasePresenter<IRegistViewThr> {
                                     }
                                 }
                             });
+                        } else {
+                            ToastUtil.showToast(mRegistView.getActivity(), "注册失败");
                         }
                     }
                 });
