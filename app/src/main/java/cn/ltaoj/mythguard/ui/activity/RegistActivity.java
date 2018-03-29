@@ -1,5 +1,6 @@
 package cn.ltaoj.mythguard.ui.activity;
 
+import android.app.Activity;
 import android.view.View;
 import android.widget.ProgressBar;
 
@@ -127,6 +128,11 @@ public class RegistActivity extends MVPBaseActivity<IRegistView, RegistPresenter
     @Override
     public void jumpToLogin() {
         jumpToActivity(LoginActivity.class, true, null);
+    }
+
+    @Override
+    public Activity getActivity() {
+        return this;
     }
 
     @Override

@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <TextView
         android:id="@+id/go_back"
@@ -13,15 +15,103 @@
         android:textSize="@dimen/text_size_18"
         android:textColor="@color/colorGrey" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="这是第三个fragment"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_marginStart="@dimen/horizontal_margin"
+        android:layout_marginEnd="@dimen/horizontal_margin">
 
-    <Button
-        android:id="@+id/go_next"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="下一步"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/title_bind_housenum"
+            android:textSize="@dimen/text_title_size"
+            android:textColor="@color/colorBlack" />
 
-</android.support.constraint.ConstraintLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/input_item_height"
+            android:orientation="horizontal">
+
+            <!--<TextView-->
+                <!--android:layout_width="0dp"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:layout_weight="2"-->
+                <!--android:text="@string/ar_housenum"-->
+                <!--android:textColor="@color/colorGrey"-->
+                <!--android:textSize="@dimen/text_size_18"-->
+                <!--android:gravity="center_vertical|end"-->
+                <!--android:layout_marginEnd="@dimen/horizontal_margin"-->
+                <!--android:labelFor="@id/input_phone"/>-->
+
+            <EditText
+                android:id="@+id/input_house_number"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="5"
+                android:textSize="@dimen/text_size_18"
+                android:inputType="phone"
+                android:maxLines="1"
+                android:hint="@string/ar_hint_housenum"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/input_item_height"
+            android:orientation="horizontal"
+            android:visibility="gone">
+
+            <!--<TextView-->
+                <!--android:layout_width="0dp"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:layout_weight="2"-->
+                <!--android:text="@string/ar_holderid"-->
+                <!--android:textColor="@color/colorGrey"-->
+                <!--android:textSize="@dimen/text_size_18"-->
+                <!--android:gravity="center_vertical|end"-->
+                <!--android:layout_marginEnd="@dimen/horizontal_margin"-->
+                <!--android:labelFor="@id/input_ID"/>-->
+
+            <EditText
+                android:id="@+id/input_holder_id"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="5"
+                android:textSize="@dimen/text_size_18"
+                android:inputType="text"
+                android:maxLines="1"
+                android:hint="@string/ar_hint_holderid"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_gravity="end">
+
+            <ImageView
+                android:id="@+id/iv_dooubt"
+                android:layout_width="@dimen/ar_doubt_size"
+                android:layout_height="@dimen/ar_doubt_size"
+                android:src="@mipmap/ic_doubt_semi_24dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="@string/ar_has_doubt"
+                android:textSize="@dimen/ar_doubt_text_size"
+                android:gravity="center"/>
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/go_next"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:text="@string/ar_finish_regist"/>
+
+    </LinearLayout>
+
+</LinearLayout>

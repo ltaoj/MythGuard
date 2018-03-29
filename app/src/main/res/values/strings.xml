@@ -39,4 +39,10 @@
     <string name="title_face_detecct">采集人脸图像</string>
     <string name="ar_start_detect">开始检测</string>
     <string name="ar_detect_again">重新检测</string>
+    <string name="title_bind_housenum">绑定门牌号</string>
+    <string name="title_bind_householder">绑定户主</string>
+    <string name="ar_hint_housenum">请输入门牌号</string>
+    <string name="ar_hint_holderid">户主编号</string>
+    <string name="ar_has_doubt">有疑问？</string>
+    <string name="ar_finish_regist">完成注册</string>
 </resources>
