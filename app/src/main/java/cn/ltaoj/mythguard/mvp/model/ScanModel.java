@@ -37,4 +37,16 @@ public interface ScanModel {
      * @return 返回Bitmap
      */
     Bitmap loadImage(ImageType imageType);
+
+    /**
+     * 加载图片File对象，并压缩
+     * @param imageType
+     * @return 返回压缩后的File对象
+     */
+    File loadZipImage(ImageType imageType);
+
+    /**
+     * 删除所有保存的图片
+     */
+    void deleteAllImages();
 }

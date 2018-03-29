@@ -12,8 +12,12 @@ import com.arcsoft.facedetection.AFD_FSDKFace;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import cn.ltaoj.mythguard.mvp.model.ScanModel;
+import cn.ltaoj.mythguard.util.DateUtil;
+import cn.ltaoj.mythguard.util.IOUtil;
 
 /**
  * Created by ltaoj on 2018/3/24 23:02.
@@ -53,6 +57,53 @@ public class ScanModelimpl implements ScanModel{
                 break;
         }
         return bitmap;
+    }
+
+    /**
+     *
+     * @param imageType
+     * @return File returned may be null if exception occured.
+     */
+    public File loadZipImage(ImageType imageType) {
+        List<File> fileList = new ArrayList<>();
+        scanDirFiles(fileList, imageType, mFile.getPath());
+        File zipFile = null;
+        if (fileList.size() > 0) {
+            String fileName = "XXX" + DateUtil.getYear() + "-" + DateUtil.getMonth() + "-" + DateUtil.getDate() + ".zip";
+            try {
+                zipFile = IOUtil.getZipFile(fileList, fileName, mFile.getPath());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return zipFile;
+    }
+
+    @Override
+    public void deleteAllImages() {
+        File fileDir = new File(mFile.getPath());
+        for (File file : fileDir.listFiles()) {
+            if (file.isFile()) {
+                file.delete();
+            }
+        }
+    }
+
+    /**
+     * 扫描文件
+     * @param fileList
+     * @param imageType
+     */
+    private void scanDirFiles(List<File> fileList, ImageType imageType, String dir) {
+        String prefix = imageType == ImageType.FACE ? "face" : "code";
+        File fileDir = new File(dir);
+        if (fileDir.isDirectory()) {
+            for (File file:fileDir.listFiles()) {
+                if (file.isFile() && file.getName().startsWith(prefix)) {
+                    fileList.add(file);
+                }
+            }
+        }
     }
 
     @Override

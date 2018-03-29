@@ -16,6 +16,12 @@ public interface RegistModel {
     void saveRegistType(String type);
 
     /**
+     * 获得注册类型，住户注册，常驻住户注册，访客注册
+     * @return
+     */
+    String getRegistType();
+
+    /**
      * 清除注册类型
      */
     void clearRegistType();
@@ -40,6 +46,23 @@ public interface RegistModel {
      * 清除第二个页面数据
      */
     void clearStepTwo();
+
+    /**
+     * 保存第三步门牌号
+     * @param houseNum
+     */
+    void saveStepThrHouseNum(String houseNum);
+
+    /**
+     * 保存第三步骤绑定者编号
+     * @param holderId
+     */
+    void saveStepThrHolderId(String holderId);
+
+    /**
+     * 清除第三个页面缓存数据
+     */
+    void clearStepThr();
 
     /**
      * 从本地加载存储的注册数据

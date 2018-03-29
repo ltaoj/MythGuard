@@ -21,8 +21,15 @@ public class RegistModelimpl implements RegistModel {
     }
 
     @Override
+    public String getRegistType() {
+        XmlFileCache cache = XmlFileCache.getInstance().startRead(fileName, XmlFileCache.MODE_PRIVATE);
+        String type = cache.getString("type", "");
+        return type;
+    }
+
+    @Override
     public void clearRegistType() {
-        XmlFileCache.getInstance().startRead(fileName, XmlFileCache.MODE_PRIVATE).getEditor()
+        XmlFileCache.getInstance().startWrite(fileName, XmlFileCache.MODE_PRIVATE).getEditor()
                 .remove("type")
                 .commit();
     }
@@ -56,6 +63,28 @@ public class RegistModelimpl implements RegistModel {
     public void clearStepTwo() {
         XmlFileCache.getInstance().startWrite(fileName, XmlFileCache.MODE_PRIVATE).getEditor()
                 .remove("facePath")
+                .commit();
+    }
+
+    @Override
+    public void saveStepThrHouseNum(String houseNum) {
+        XmlFileCache.getInstance().startWrite(fileName, XmlFileCache.MODE_PRIVATE)
+                .putString("houseNumber", houseNum)
+                .commit();
+    }
+
+    @Override
+    public void saveStepThrHolderId(String holderId) {
+        XmlFileCache.getInstance().startWrite(fileName, XmlFileCache.MODE_PRIVATE)
+                .putString("binderId", holderId)
+                .commit();
+    }
+
+    @Override
+    public void clearStepThr() {
+        XmlFileCache.getInstance().startWrite(fileName, XmlFileCache.MODE_PRIVATE).getEditor()
+                .remove("houseNumber")
+                .remove("binderId")
                 .commit();
     }
 
