@@ -1,5 +1,7 @@
 package cn.ltaoj.mythguard.mvp.view;
 
+import android.app.Activity;
+
 /**
  * Created by ltaoj on 2018/3/14 17:09.
  */
@@ -20,4 +22,10 @@ public interface IRegistView {
      * 注册完成后跳转到登录页面
      */
     void jumpToLogin();
+
+    /**
+     * 返回当前活动
+     * @return
+     */
+    Activity getActivity();
 }
