@@ -1,6 +1,12 @@
 package cn.ltaoj.mythguard.ui.fragment;
 
+import android.content.Context;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.view.View;
+import android.widget.Button;
+import android.widget.ImageView;
 
 import cn.ltaoj.mythguard.R;
 import cn.ltaoj.mythguard.base.MVPBaseFragment;
@@ -8,6 +14,8 @@ import cn.ltaoj.mythguard.mvp.presenter.RegistTwoPresenter;
 import cn.ltaoj.mythguard.mvp.view.IRegistView;
 import cn.ltaoj.mythguard.mvp.view.IRegistViewTwo;
 import cn.ltaoj.mythguard.ui.activity.ScanActivity;
+
+import static cn.ltaoj.mythguard.mvp.presenter.RegistTwoPresenter.ACTIVITY_REQUEST_CODE;
 
 /**
  * Created by ltaoj on 2018/3/14 22:14.
@@ -27,7 +35,9 @@ public class RegistTwoFragment extends MVPBaseFragment<IRegistViewTwo, RegistTwo
 
     @Override
     protected void initView() {
-        getRootView().findViewById(R.id.go_next).setOnClickListener(this);
+        Button button = getRootView().findViewById(R.id.go_next);
+        button.setOnClickListener(this);
+        button.setEnabled(false);
         getRootView().findViewById(R.id.go_back).setOnClickListener(this);
 
         getRootView().findViewById(R.id.face_auth).setOnClickListener(this);
@@ -53,7 +63,8 @@ public class RegistTwoFragment extends MVPBaseFragment<IRegistViewTwo, RegistTwo
                 mPresenter.checkData();
                 break;
             case R.id.face_auth:
-                jumpToActivity(ScanActivity.class, null);
+//                jumpToActivity(ScanActivity.class, null);
+                startActivityForResult(new Intent(getContext(), ScanActivity.class), ACTIVITY_REQUEST_CODE);
                 break;
         }
     }
@@ -71,5 +82,37 @@ public class RegistTwoFragment extends MVPBaseFragment<IRegistViewTwo, RegistTwo
         } else {
             this.registView = registView;
         }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        mPresenter.listenScanResult(requestCode, resultCode, data);
+    }
+
+    @Override
+    public Context getViewContext() {
+        return getContext();
+    }
+
+    @Override
+    public void setEnabledBtn(boolean enabled) {
+        getRootView().findViewById(R.id.go_next).setEnabled(enabled);
+    }
+
+    @Override
+    public void changeBtnText(int id) {
+        Button detectBtn = getRootView().findViewById(R.id.face_auth);
+
+        String btnText = getResources().getString(id);
+        if (btnText != null && !btnText.equals("")) {
+            detectBtn.setText(btnText);
+        }
+    }
+
+    @Override
+    public void setPreviewImage(Bitmap bitmap) {
+        ImageView imageView = getRootView().findViewById(R.id.preview_image);
+        imageView.setImageBitmap(bitmap);
     }
 }

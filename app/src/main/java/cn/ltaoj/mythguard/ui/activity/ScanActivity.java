@@ -114,22 +114,22 @@ public class ScanActivity extends MVPBaseActivity<IScanView, ScanPresenter> impl
         FacePreview.OnPreviewChangeListener changeListener = new FacePreview.OnPreviewChangeListener() {
             @Override
             public void onReady() {
-                ToastUtil.showToast(getApplicationContext(), "FacePreview ready");
+//                ToastUtil.showToast(getApplicationContext(), "FacePreview ready");
             }
 
             @Override
             public void onPause() {
-                ToastUtil.showToast(getApplicationContext(), "FacePreview pause");
+//                ToastUtil.showToast(getApplicationContext(), "FacePreview pause");
             }
 
             @Override
             public void onDetecting() {
-                ToastUtil.showToast(getApplicationContext(), "FacePreview detecting");
+//                ToastUtil.showToast(getApplicationContext(), "FacePreview detecting");
             }
 
             @Override
             public void onComplete() {
-                ToastUtil.showToast(getApplicationContext(), "FacePreview completed");
+//                ToastUtil.showToast(getApplicationContext(), "FacePreview completed");
             }
         };
         FacePreview.PreviewConfig faceConfig = new FacePreview.PreviewConfig(250, 350,

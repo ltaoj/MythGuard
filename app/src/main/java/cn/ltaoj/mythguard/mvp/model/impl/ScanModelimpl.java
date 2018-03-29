@@ -1,6 +1,8 @@
 package cn.ltaoj.mythguard.mvp.model.impl;
 
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.graphics.Rect;
 import android.graphics.YuvImage;
 import android.media.Image;
@@ -32,6 +34,25 @@ public class ScanModelimpl implements ScanModel{
     public void setParentFile(File pFile) {
         this.pFile = pFile;
         mFile = new File(pFile, picName);
+    }
+
+    @Override
+    public Bitmap loadImage(ImageType imageType) {
+        Bitmap bitmap = null;
+        switch (imageType) {
+            case FACE:
+                bitmap = BitmapFactory.decodeFile(pFile.getPath() + "/" + picName);
+                Matrix matrix = new Matrix();
+                matrix.setRotate(90f);
+                bitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
+                break;
+            case CODE:
+
+                break;
+            default:
+                break;
+        }
+        return bitmap;
     }
 
     @Override

@@ -36,5 +36,7 @@
     <string name="ar_ID">身份证号</string>
     <string name="ar_phone">手机号</string>
     <string name="ar_next_step">下一步</string>
-
+    <string name="title_face_detecct">采集人脸图像</string>
+    <string name="ar_start_detect">开始检测</string>
+    <string name="ar_detect_again">重新检测</string>
 </resources>

@@ -14,6 +14,10 @@ import java.io.File;
 
 public interface ScanModel {
 
+    enum ImageType {
+        FACE,
+        CODE
+    }
     /**
      * 保存脸部图像
      * @param yuvImage
@@ -26,4 +30,11 @@ public interface ScanModel {
      * @param pFile
      */
     void setParentFile(File pFile);
+
+    /**
+     * 加载图片
+     * @param imageType
+     * @return 返回Bitmap
+     */
+    Bitmap loadImage(ImageType imageType);
 }
