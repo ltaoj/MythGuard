@@ -6,6 +6,7 @@ import android.graphics.Matrix;
 import android.graphics.Rect;
 import android.graphics.YuvImage;
 import android.media.Image;
+import android.util.Log;
 
 import com.arcsoft.facedetection.AFD_FSDKFace;
 
@@ -66,12 +67,12 @@ public class ScanModelimpl implements ScanModel{
      */
     public File loadZipImage(ImageType imageType) {
         List<File> fileList = new ArrayList<>();
-        scanDirFiles(fileList, imageType, mFile.getPath());
+        scanDirFiles(fileList, imageType, pFile.getPath());
         File zipFile = null;
         if (fileList.size() > 0) {
             String fileName = "XXX" + DateUtil.getYear() + "-" + DateUtil.getMonth() + "-" + DateUtil.getDate() + ".zip";
             try {
-                zipFile = IOUtil.getZipFile(fileList, fileName, mFile.getPath());
+                zipFile = IOUtil.getZipFile(fileList, fileName, pFile.getPath());
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -81,7 +82,7 @@ public class ScanModelimpl implements ScanModel{
 
     @Override
     public void deleteAllImages() {
-        File fileDir = new File(mFile.getPath());
+        File fileDir = new File(pFile.getPath());
         for (File file : fileDir.listFiles()) {
             if (file.isFile()) {
                 file.delete();
@@ -99,7 +100,7 @@ public class ScanModelimpl implements ScanModel{
         File fileDir = new File(dir);
         if (fileDir.isDirectory()) {
             for (File file:fileDir.listFiles()) {
-                if (file.isFile() && file.getName().startsWith(prefix)) {
+                if (file.isFile() && file.getName().contains(prefix)) {
                     fileList.add(file);
                 }
             }
