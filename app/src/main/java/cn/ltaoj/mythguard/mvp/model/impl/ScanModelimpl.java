@@ -47,6 +47,11 @@ public class ScanModelimpl implements ScanModel{
         switch (imageType) {
             case FACE:
                 bitmap = BitmapFactory.decodeFile(pFile.getPath() + "/" + picName);
+                // fix bug
+                // date：2018-3-31 17:45:48
+                if (bitmap == null) {
+                    break;
+                }
                 Matrix matrix = new Matrix();
                 matrix.setRotate(90f);
                 bitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
