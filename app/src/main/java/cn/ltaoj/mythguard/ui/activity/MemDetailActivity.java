@@ -55,10 +55,10 @@ public class MemDetailActivity extends MVPBaseActivity {
     protected void initData() {
         MemberItem memberItem = new MemberItem();
         memberItem.setUname("王铁柱");
-        memberItem.setIDNumber("41078219990101XXXX");
+        memberItem.setIdNumber("41078219990101XXXX");
         memberItem.setPhone("11188888888");
         memberItem.setHouseNumber("仙鹤小区15栋2单元1404");
-        String[] values = new String[] {memberItem.getUname(), memberItem.getIDNumber(), memberItem.getPhone(), memberItem.getHouseNumber()};
+        String[] values = new String[] {memberItem.getUname(), memberItem.getIdNumber(), memberItem.getPhone(), memberItem.getHouseNumber()};
         for (int i = 0;i < keys.length;i++) {
             BasicListItem item = new BasicListItem(null, keys[i], values[i]);
             listItems.add(item);
