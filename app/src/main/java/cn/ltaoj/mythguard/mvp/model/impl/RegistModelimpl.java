@@ -38,7 +38,7 @@ public class RegistModelimpl implements RegistModel {
     public void saveStepOne(String name, String ID, String phone) {
         XmlFileCache.getInstance().startWrite(fileName, XmlFileCache.MODE_PRIVATE)
                 .putString("uname", name)
-                .putString("IDNumber", ID)
+                .putString("idNumber", ID)
                 .putString("phone", phone)
                 .commit();
     }
@@ -47,7 +47,7 @@ public class RegistModelimpl implements RegistModel {
     public void clearStepOne() {
         XmlFileCache.getInstance().startWrite(fileName, XmlFileCache.MODE_PRIVATE).getEditor()
                 .remove("uname")
-                .remove("IDNumber")
+                .remove("idNumber")
                 .remove("phone")
                 .commit();
     }
@@ -92,7 +92,7 @@ public class RegistModelimpl implements RegistModel {
     public void loadRegistData(DataListener<RegistData> listener) {
         XmlFileCache cache = XmlFileCache.getInstance().startRead(fileName, XmlFileCache.MODE_PRIVATE);
         String uname = cache.getString("uname", "");
-        String IDNumber = cache.getString("IDNumber", "");
+        String IDNumber = cache.getString("idNumber", "");
         String phone = cache.getString("phone", "");
         String facePath = cache.getString("facePath", "");
         String type = cache.getString("type", "");
