@@ -7,7 +7,7 @@ package cn.ltaoj.mythguard.bean;
 public class RegistData {
 
     private String uname;
-    private String IDNumber;
+    private String idNumber;
     private String phone;
     private String facePath;
     // type取值为户主、常驻住户、访客
@@ -18,9 +18,9 @@ public class RegistData {
     public RegistData() {
     }
 
-    public RegistData(String uname, String IDNumber, String phone, String facePath, String type, String houseNumber, String binderId) {
+    public RegistData(String uname, String idNumber, String phone, String facePath, String type, String houseNumber, String binderId) {
         this.uname = uname;
-        this.IDNumber = IDNumber;
+        this.idNumber = idNumber;
         this.phone = phone;
         this.facePath = facePath;
         this.type = type;
@@ -36,12 +36,12 @@ public class RegistData {
         this.uname = uname;
     }
 
-    public String getIDNumber() {
-        return IDNumber;
+    public String getIdNumber() {
+        return idNumber;
     }
 
-    public void setIDNumber(String IDNumber) {
-        this.IDNumber = IDNumber;
+    public void setIdNumber(String idNumber) {
+        this.idNumber = idNumber;
     }
 
     public String getPhone() {

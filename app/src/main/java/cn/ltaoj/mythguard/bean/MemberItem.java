@@ -13,7 +13,7 @@ public class MemberItem implements Parcelable{
     private String uname;
     private String type;
     private String houseNumber;
-    private String IDNumber;
+    private String idNumber;
     private String phone;
     private String email;
     private int status;
@@ -27,7 +27,7 @@ public class MemberItem implements Parcelable{
         uname = in.readString();
         type = in.readString();
         houseNumber = in.readString();
-        IDNumber = in.readString();
+        idNumber = in.readString();
         phone = in.readString();
         email = in.readString();
         status = in.readInt();
@@ -57,7 +57,7 @@ public class MemberItem implements Parcelable{
         parcel.writeString(uname);
         parcel.writeString(type);
         parcel.writeString(houseNumber);
-        parcel.writeString(IDNumber);
+        parcel.writeString(idNumber);
         parcel.writeString(phone);
         parcel.writeString(email);
         parcel.writeInt(status);
@@ -96,12 +96,12 @@ public class MemberItem implements Parcelable{
         this.houseNumber = houseNumber;
     }
 
-    public String getIDNumber() {
-        return IDNumber;
+    public String getIdNumber() {
+        return idNumber;
     }
 
-    public void setIDNumber(String IDNumber) {
-        this.IDNumber = IDNumber;
+    public void setIdNumber(String idNumber) {
+        this.idNumber = idNumber;
     }
 
     public String getPhone() {
