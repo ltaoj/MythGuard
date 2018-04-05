@@ -154,6 +154,8 @@ public class RegistThrPresenter extends BasePresenter<IRegistViewThr> {
                                         clearModel();
                                         mRegistView.nextFragment();
                                         ToastUtil.showToast(mRegistView.getActivity(), "注册成功");
+                                    } else if (result.getCode() == CtmResult.Code.REQUEST_ERROR) {
+                                        ToastUtil.showToast(mRegistView.getActivity(), result.getMsg());
                                     } else {
                                         ToastUtil.showToast(mRegistView.getActivity(), "注册失败");
                                     }

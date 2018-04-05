@@ -17,12 +17,15 @@ import cn.ltaoj.mythguard.bean.CtmResult;
 import cn.ltaoj.mythguard.bean.RegistData;
 import cn.ltaoj.mythguard.listener.DataListener;
 import cn.ltaoj.mythguard.network.RegistApi;
+import cn.ltaoj.mythguard.util.ToastUtil;
 
 /**
  * Created by ltaoj on 2018/3/14 21:47.
  */
 
 public class RegistApiimpl implements RegistApi {
+    private static final String TAG = "RegistApiimpl";
+
     private static final String REGIST_POST = "https://www.ltaoj.cn";
 
     @Override
@@ -38,6 +41,7 @@ public class RegistApiimpl implements RegistApi {
 
     @Override
     public void uploadImages(File zipImages, DataListener<CtmResult> listener) {
+
         CtmResult result = new CtmResult(true, 0, "上传成功",
                 "https://www.ltaoj.cn/images/unresolved/H1234567-2018-03-29.zip");
         listener.onComplete(result);
@@ -57,9 +61,11 @@ public class RegistApiimpl implements RegistApi {
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
-
+                    CtmResult ctmResult = CtmResult.getResultByNetResponse(error.networkResponse);
+                    listener.onComplete(ctmResult);
                 }
             });
+            MythApplication.getHttpQueues().add(request);
         } catch (JSONException e) {
             e.printStackTrace();
         }
