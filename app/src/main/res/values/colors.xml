@@ -5,6 +5,7 @@
     <color name="colorAccent">#2D2D2D</color>
 
     <color name="colorWhite">#FFFFFF</color>
+
     <color name="colorTabNormal">#A6A6A6</color>
 
     <color name="colorImageBorder">#333333</color>
@@ -18,4 +19,22 @@
     <color name="colorBlue">#576B95</color>
     <color name="colorGreen">#09BB07</color>
     <color name="colorRed">#E64340</color>
+
+    <!--网易云音乐主题颜色-->
+    <drawable name="neDwabRed">#D33A31</drawable>
+    <drawable name="neDwabRedDark">#D9D33A31</drawable>
+    <color name="neRed">#D33A31</color>
+    <color name="neRedDark">#D9D33A31</color>
+
+    <!--QQ主题颜色-->
+    <drawable name="tcDwabGrey">#E9EBEC</drawable>
+    <drawable name="tcDwabGreyDark">#C9C9C9</drawable>
+    <color name="tcGrey">#E9EBEC</color>
+    <color name="tcGreyDark">#C9C9C9</color>
+
+    <drawable name="dwabWhiteDark">#D9FFFFFF</drawable>
+    <drawable name="dwabWhite">#FFFFFF</drawable>
+
+    <drawable name="tcDwabCyan">#12B7F6</drawable>
+    <drawable name="tcDwabCyanDark">#D912B7F6</drawable>
 </resources>

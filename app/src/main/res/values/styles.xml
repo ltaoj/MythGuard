@@ -12,4 +12,20 @@
     <style name="TranslucentTheme" parent="AppTheme">
         <item name="android:windowTranslucentStatus">true</item>
     </style>
+
+    <!--弹出窗口动画-->
+    <style name="popmenu_anim_style">
+        <item name="android:windowEnterAnimation">@anim/popmenu_show</item>
+        <item name="android:windowExitAnimation">@anim/popmenu_hide</item>
+    </style>
+
+    <style name="custom_btn_style">
+        <item name="android:layout_height">@dimen/custom_height</item>
+        <item name="android:textSize">@dimen/custom_text_size</item>
+        <item name="android:letterSpacing">0.1</item>
+    </style>
+
+    <style name="registProgressBar" parent="Widget.AppCompat.ProgressBar.Horizontal">
+        <!--<item name="android:progressDrawable">@drawable/progress_horizontal_top</item>-->
+    </style>
 </resources>

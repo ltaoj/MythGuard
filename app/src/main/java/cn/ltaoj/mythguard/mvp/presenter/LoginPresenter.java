@@ -2,7 +2,9 @@ package cn.ltaoj.mythguard.mvp.presenter;
 
 import cn.ltaoj.mythguard.bean.Signon;
 import cn.ltaoj.mythguard.listener.DataListener;
+import cn.ltaoj.mythguard.mvp.model.RegistModel;
 import cn.ltaoj.mythguard.mvp.model.SignonModel;
+import cn.ltaoj.mythguard.mvp.model.impl.RegistModelimpl;
 import cn.ltaoj.mythguard.mvp.model.impl.SignonModelimpl;
 import cn.ltaoj.mythguard.mvp.view.ILoginView;
 import cn.ltaoj.mythguard.network.AccountApi;
@@ -14,11 +16,17 @@ import cn.ltaoj.mythguard.network.impl.AccountApiimpl;
 
 public class LoginPresenter extends BasePresenter<ILoginView> {
 
+    public static final int HOLDER_REGIST = 0;
+    public static final int MEMBER_REGIST = 1;
+    public static final int VISITOR_REGIST = 2;
+
     private ILoginView mLoginView;
 
     private SignonModel mSignonModel = new SignonModelimpl();
 
     private AccountApi mAccounrApi = new AccountApiimpl();
+
+    private RegistModel mRegistModel = new RegistModelimpl();
 
     public LoginPresenter(ILoginView mLoginView) {
         this.mLoginView = mLoginView;
@@ -74,5 +82,27 @@ public class LoginPresenter extends BasePresenter<ILoginView> {
                 }
             }
         });
+    }
+
+    /**
+     * 保存注册类型，跳转注册页面
+     * @param type
+     */
+    public void goToRegist(int type) {
+        switch (type) {
+            case HOLDER_REGIST:
+                mRegistModel.saveRegistType("户主");
+                mLoginView.jumpToRegist();
+                break;
+            case MEMBER_REGIST:
+                mRegistModel.saveRegistType("常驻住户");
+                mLoginView.jumpToRegist();
+                break;
+            case VISITOR_REGIST:
+                mRegistModel.saveRegistType("访客");
+                break;
+            default:
+                break;
+        }
     }
 }

@@ -67,23 +67,28 @@
 
             <TextView
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_weight="2"
                 android:text="@string/ar_name"
                 android:textColor="@color/colorGrey"
                 android:textSize="@dimen/text_size_18"
                 android:gravity="center_vertical|end"
                 android:layout_marginEnd="@dimen/horizontal_margin"
-                android:labelFor="@id/input_name"/>
+                android:labelFor="@id/input_name"
+                android:layout_gravity="bottom"/>
 
             <EditText
                 android:id="@+id/input_name"
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_weight="5"
                 android:textSize="@dimen/text_size_18"
                 android:inputType="text"
-                android:maxLines="1"/>
+                android:maxLines="1"
+                android:background="@drawable/layer_edit_bg"
+                android:textCursorDrawable="@drawable/shape_edit_cusor"
+                android:paddingBottom="@dimen/custom_edit_vertical_padding"
+                android:layout_gravity="bottom"/>
         </LinearLayout>
 
         <LinearLayout
@@ -93,23 +98,28 @@
 
             <TextView
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_weight="2"
                 android:text="@string/ar_ID"
                 android:textColor="@color/colorGrey"
                 android:textSize="@dimen/text_size_18"
                 android:gravity="center_vertical|end"
                 android:layout_marginEnd="@dimen/horizontal_margin"
-                android:labelFor="@id/input_ID"/>
+                android:labelFor="@id/input_ID"
+                android:layout_gravity="bottom"/>
 
             <EditText
                 android:id="@+id/input_ID"
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_weight="5"
                 android:textSize="@dimen/text_size_18"
                 android:inputType="text"
-                android:maxLines="1"/>
+                android:maxLines="1"
+                android:background="@drawable/layer_edit_bg"
+                android:textCursorDrawable="@drawable/shape_edit_cusor"
+                android:paddingBottom="@dimen/custom_edit_vertical_padding"
+                android:layout_gravity="bottom"/>
         </LinearLayout>
 
         <LinearLayout
@@ -119,31 +129,38 @@
 
             <TextView
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_weight="2"
                 android:text="@string/ar_phone"
                 android:textColor="@color/colorGrey"
                 android:textSize="@dimen/text_size_18"
                 android:gravity="center_vertical|end"
                 android:layout_marginEnd="@dimen/horizontal_margin"
-                android:labelFor="@id/input_phone"/>
+                android:labelFor="@id/input_phone"
+                android:layout_gravity="bottom"/>
 
             <EditText
                 android:id="@+id/input_phone"
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_weight="5"
                 android:textSize="@dimen/text_size_18"
                 android:inputType="phone"
-                android:maxLines="1"/>
+                android:maxLines="1"
+                android:background="@drawable/layer_edit_bg"
+                android:textCursorDrawable="@drawable/shape_edit_cusor"
+                android:paddingBottom="@dimen/custom_edit_vertical_padding"
+                android:layout_gravity="bottom"/>
         </LinearLayout>
 
         <Button
             android:id="@+id/go_next"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/activity_vertical_margin"
-            android:text="@string/ar_next_step"/>
+            android:text="@string/ar_next_step"
+            style="@style/custom_btn_style"
+            android:background="@drawable/ripple_btn_red_rdcor_bg"
+            android:textColor="@color/slct_btn_red_text"/>
 
     </LinearLayout>
 </LinearLayout>

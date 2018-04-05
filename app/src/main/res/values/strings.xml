@@ -5,11 +5,12 @@
     <string name="title_opendoor">开门</string>
 
     <!--layout activity_login.xml-->
-    <string name="al_hint_account">请输入用户名</string>
+    <string name="al_hint_account">请输入手机号</string>
     <string name="al_hint_pwd">请输入密码</string>
     <string name="al_family">家庭登录</string>
     <string name="al_visitor">访客登录</string>
     <string name="al_forget">忘记密码？</string>
+    <string name="al_imd_regist">立即注册</string>
 
     <!--layout activity_regist.xml-->
     <string name="ar_regist">注册</string>
@@ -45,4 +46,14 @@
     <string name="ar_hint_holderid">户主编号</string>
     <string name="ar_has_doubt">有疑问？</string>
     <string name="ar_finish_regist">完成注册</string>
+
+    <!--layout activity_launch.xml constant string-->
+    <string name="al_login">登录</string>
+    <string name="al_regist">注册</string>
+    <string name="al_holder_regist">户主注册</string>
+    <string name="al_member_regist">成员注册</string>
+    <string name="al_visitor_regist">访客申请</string>
+
+    <!--layout widget_pop_menu.xml-->
+    <string name="wpm_close">X</string>
 </resources>

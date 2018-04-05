@@ -48,12 +48,16 @@
             <EditText
                 android:id="@+id/input_house_number"
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_weight="5"
                 android:textSize="@dimen/text_size_18"
                 android:inputType="phone"
                 android:maxLines="1"
-                android:hint="@string/ar_hint_housenum"/>
+                android:hint="@string/ar_hint_housenum"
+                android:background="@drawable/layer_edit_bg"
+                android:textCursorDrawable="@drawable/shape_edit_cusor"
+                android:paddingVertical="@dimen/custom_edit_vertical_padding"
+                android:layout_gravity="bottom"/>
         </LinearLayout>
 
         <LinearLayout
@@ -76,19 +80,24 @@
             <EditText
                 android:id="@+id/input_holder_id"
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_weight="5"
                 android:textSize="@dimen/text_size_18"
                 android:inputType="text"
                 android:maxLines="1"
-                android:hint="@string/ar_hint_holderid"/>
+                android:hint="@string/ar_hint_holderid"
+                android:background="@drawable/layer_edit_bg"
+                android:textCursorDrawable="@drawable/shape_edit_cusor"
+                android:paddingBottom="@dimen/custom_edit_vertical_padding"
+                android:layout_gravity="bottom"/>
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_gravity="end">
+            android:layout_gravity="end"
+            android:layout_marginTop="@dimen/activity_vertical_margin">
 
             <ImageView
                 android:id="@+id/iv_dooubt"
@@ -108,9 +117,11 @@
         <Button
             android:id="@+id/go_next"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/activity_vertical_margin"
-            android:text="@string/ar_finish_regist"/>
+            android:text="@string/ar_finish_regist"
+            style="@style/custom_btn_style"
+            android:background="@drawable/ripple_btn_red_rdcor_bg"
+            android:textColor="@color/slct_btn_red_text"/>
 
     </LinearLayout>
 

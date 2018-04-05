@@ -23,7 +23,7 @@ public class RegistModelimpl implements RegistModel {
     @Override
     public String getRegistType() {
         XmlFileCache cache = XmlFileCache.getInstance().startRead(fileName, XmlFileCache.MODE_PRIVATE);
-        String type = cache.getString("type", "");
+        String type = cache.getString("type", "住户");
         return type;
     }
 

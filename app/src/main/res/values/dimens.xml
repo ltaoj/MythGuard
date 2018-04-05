@@ -40,4 +40,18 @@
     <!--regist activity step 3-->
     <dimen name="ar_doubt_size">16dp</dimen>
     <dimen name="ar_doubt_text_size">12sp</dimen>
+
+    <!--activity_launch.xml-->
+    <dimen name="al_between_space">8dp</dimen>
+
+    <!--widget_pop_menu.xml-->
+    <dimen name="wpm_close_view_size">48dp</dimen>
+    <dimen name="wpm_close_text_size">32sp</dimen>
+
+    <!--custom btn style-->
+    <dimen name="custom_height">40dp</dimen>
+    <dimen name="custom_text_size">18sp</dimen>
+
+    <!--edit vertical padding-->
+    <dimen name="custom_edit_vertical_padding">8dp</dimen>
 </resources>

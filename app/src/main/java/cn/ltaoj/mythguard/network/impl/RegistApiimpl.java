@@ -14,7 +14,8 @@ import cn.ltaoj.mythguard.network.RegistApi;
 public class RegistApiimpl implements RegistApi {
     @Override
     public void queryAvailByHouseNum(String houseNum, DataListener<CtmResult> listener) {
-
+        CtmResult result = new CtmResult(true, 0, "未绑定", "");
+        listener.onComplete(result);
     }
 
     @Override
@@ -24,11 +25,14 @@ public class RegistApiimpl implements RegistApi {
 
     @Override
     public void uploadImages(File zipImages, DataListener<CtmResult> listener) {
-
+        CtmResult result = new CtmResult(true, 0, "上传成功",
+                "https://www.ltaoj.cn/images/unresolved/H1234567-2018-03-29.zip");
+        listener.onComplete(result);
     }
 
     @Override
     public void regist(RegistData registData, DataListener<CtmResult> listener) {
-
+        CtmResult result = new CtmResult(true, 0, "注册成功", "");
+        listener.onComplete(result);
     }
 }

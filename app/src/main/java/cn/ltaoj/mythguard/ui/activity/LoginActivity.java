@@ -8,9 +8,11 @@ import cn.ltaoj.mythguard.MainActivity;
 import cn.ltaoj.mythguard.R;
 import cn.ltaoj.mythguard.base.MVPBaseActivity;
 import cn.ltaoj.mythguard.cache.file.XmlFileCache;
+import cn.ltaoj.mythguard.mvp.presenter.LaunchPresenter;
 import cn.ltaoj.mythguard.mvp.presenter.LoginPresenter;
 import cn.ltaoj.mythguard.mvp.view.ILoginView;
 import cn.ltaoj.mythguard.util.ToastUtil;
+import cn.ltaoj.mythguard.widget.PopMenu;
 
 /**
  * Created by ltaoj on 2018/3/13 14:32.
@@ -24,6 +26,28 @@ public class LoginActivity extends MVPBaseActivity<ILoginView, LoginPresenter> i
     private EditText accountInput;
     private EditText pwdInput;
 
+    private PopMenu mPopMenu = null;
+
+    private PopMenu.ItemClickListener mItemClickListener = new PopMenu.ItemClickListener() {
+        @Override
+        public void performHolderRegist() {
+            mPopMenu.dismiss();
+            mPresenter.goToRegist(LaunchPresenter.HOLDER_REGIST);
+        }
+
+        @Override
+        public void performMemberRegist() {
+            mPopMenu.dismiss();
+            mPresenter.goToRegist(LaunchPresenter.MEMBER_REGIST);
+        }
+
+        @Override
+        public void performVisitorRegist() {
+            mPopMenu.dismiss();
+            mPresenter.goToRegist(LaunchPresenter.VISITOR_REGIST);
+        }
+    };
+
     @Override
     protected void initView() {
         accountInput = findViewById(R.id.et_account);
@@ -32,12 +56,13 @@ public class LoginActivity extends MVPBaseActivity<ILoginView, LoginPresenter> i
         findViewById(R.id.bt_family).setOnClickListener(this);
         findViewById(R.id.bt_visitor).setOnClickListener(this);
         findViewById(R.id.tv_forget).setOnClickListener(this);
+        findViewById(R.id.tv_imd_regist).setOnClickListener(this);
     }
 
     @Override
     protected void initData() {
-        // 初始化XmlFileCache单例类, 该方法需要在使用presenter之前初始化，否则会发生异常
-        XmlFileCache.init(this);
+//        // 初始化XmlFileCache单例类, 该方法需要在使用presenter之前初始化，否则会发生异常
+//        XmlFileCache.init(this);
 
         // 尝试自动登录
         mPresenter.autoLogin();
@@ -61,7 +86,10 @@ public class LoginActivity extends MVPBaseActivity<ILoginView, LoginPresenter> i
                 mPresenter.login();
                 break;
             case R.id.tv_forget:
-                jumpToRegist();
+
+                break;
+            case R.id.tv_imd_regist:
+                mPopMenu = new PopMenu(this, findViewById(R.id.root), mItemClickListener);
                 break;
 
         }
