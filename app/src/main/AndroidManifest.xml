@@ -3,7 +3,9 @@
     package="cn.ltaoj.mythguard">
 
     <uses-permission android:name="android.permission.CAMERA" />
+
     <application
+        android:name=".base.MythApplication"
         android:allowBackup="true"
         android:hardwareAccelerated="true"
         android:icon="@mipmap/ic_launcher"
